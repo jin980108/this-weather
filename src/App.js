@@ -7,23 +7,17 @@ import { ClipLoader } from 'react-spinners';
 import ForecastList from './component/Forecast';
 import CurrentTime from './component/CurrentTime';
 import Navbar from './component/Navbar';
-import WeatherMap from './component/Page/WeatherMap';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { NavermapsProvider } from 'react-naver-maps';
+import { useLocation } from 'react-router-dom';
+import SubjectTitle from './component/SubjectTitle';
 
 function App() {
   const [weather, setWeather] = useState(null);
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
   const [forecast, setForecast] = useState([]);
-  const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Tokyo'];
+  const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Tokyo'];
   const location = useLocation();
-  const navigate = useNavigate();
   
-  const goToHome = () => {
-    navigate('/');
-  }
-
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
@@ -85,31 +79,22 @@ function App() {
   }, [city, location.pathname]);
 
   return (
-    <NavermapsProvider ncpClientId="YOUR_CLIENT_ID_HERE">
-      <div>
-        <div className="subject" onClick={goToHome}>여기, 날씨 <span>2025</span></div>
-
-        {location.pathname === "/" && !loading && <Navbar />}
-
-        <Routes>
-          <Route path="/" element={
-            loading ? (
-              <div className="loading-container">
-                <ClipLoader color="black" loading={loading} size={150} />
-              </div>
-            ) : (
-              <div className="container">
-                <CurrentTime />
-                <WeatherBox weather={weather} />
-                <ForecastList forecast={forecast} weather={weather} />
-                <WeatherButton cities={cities} handleCityChange={handleCityChange} selectedCity={city} />
-              </div>
-            )
-          } />
-          <Route path="/map" element={<WeatherMap />} />
-        </Routes>
-      </div>
-    </NavermapsProvider>
+    <div>
+      <Navbar />
+      <SubjectTitle />
+      {loading ? (
+        <div className="loading-container">
+          <ClipLoader color="white" loading={loading} size={150} />
+        </div>
+      ) : (
+        <div className="container">
+          <CurrentTime />
+          <WeatherBox weather={weather} />
+          <ForecastList forecast={forecast} weather={weather} />
+          <WeatherButton cities={cities} handleCityChange={handleCityChange} selectedCity={city} />
+        </div>
+      )}
+    </div>
   );
 }
 

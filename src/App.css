@@ -65,7 +65,7 @@ body{
 
 .weather-box{
   border: 2px solid white;
-  padding: 50px;
+  padding: 30px;
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -160,7 +160,7 @@ body{
 
 .side-nav{
   position: absolute;
-  margin-top:250px;
+  margin-top:300px;
   margin-left:20px;
   width:200px;
   height:400px;
@@ -229,16 +229,121 @@ body{
   font-size: 40px;
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
   color:lightgreen;
+  margin-bottom: -10px;
 }
 
 .weather-info3{
   font-size: 40px;
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
   color:skyblue;
+  margin-top: 0;
 }
 
 .guide{
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
   font-size: 22px;
   color:lightyellow;
+}
+
+.weathernews-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  margin: 100px auto 0 auto;
+  max-width: 1300px;
+  min-height: 600px;
+  background: none;
+}
+
+.weathernews-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: none;
+  min-width: 0;
+}
+
+.weathernews-title {
+  font-family: 'Ownglyph_corncorn-Rg';
+  font-size: 23px;
+  margin-bottom: 10px;
+  color: white;
+  text-align: left;
+}
+
+.weathernews-card,
+.weathernews-youtube-card {
+  height: 120px;
+  overflow: hidden;
+}
+
+.weathernews-card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 110px;
+  justify-content: center;
+}
+
+.weathernews-divider {
+  width: 1px;
+  background-color: rgba(255,255,255,0.3);
+  margin: 0 32px;
+  min-height: 100%;
+}
+
+.weathernews-youtube-card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  min-height: 110px;
+  cursor: pointer;
+}
+
+.weathernews-youtube-card img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 16px;
+}
+
+.weathernews-youtube-info {
+  flex: 1;
+}
+
+.weathernews-youtube-title {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+  font-family: 'Ownglyph_corncorn-Rg';
+}
+
+.weathernews-youtube-channel {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+  font-family: 'Ownglyph_corncorn-Rg';
+}
+
+.weathernews-youtube-meta {
+  font-size: 12px;
+  color: #888;
+  font-family: 'Ownglyph_corncorn-Rg';
+}
+
+.menu-container .btn-outline-primary,
+.menu-container .btn-outline-primary:active,
+.menu-container .btn-outline-primary.active,
+.menu-container .btn-outline-primary:focus {
+  color: #fff !important;
 }
