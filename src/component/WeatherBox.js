@@ -133,7 +133,6 @@ const WeatherBox = ({ weather }) => {
   };
 
   const translateCity = cityMap[weather.name?.toLowerCase()] || weather.name;
-
   const weatherMain = weather.weather?.[0]?.main?.toLowerCase();
 
   let animationData = sunny;

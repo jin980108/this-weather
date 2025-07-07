@@ -347,3 +347,51 @@ body{
 .menu-container .btn-outline-primary:focus {
   color: #fff !important;
 }
+
+.hourly-rainfall-container {
+  padding: 24px 0;
+  border-radius: 24px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  margin: 0 0 24px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+}
+
+.hourly-rainfall-box {
+  width: 90px;
+  min-height: 120px;
+  margin: 5px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Ownglyph_corncorn-Rg';
+  color: #fff;
+}
+
+.hourly-rainfall-amount {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.hourly-rainfall-hour {
+  font-size: 15px;
+  color: #fff;
+  margin-top: 2px;
+}
+
+.rain-bg-box {
+  max-width: 600px;
+  margin: 80px auto 0 auto;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border: 2px solid white;
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+}

@@ -6,6 +6,13 @@ const axios = require('axios');
 const app = express();
 const PORT = 5001;
 
+// 캐싱을 위한 변수
+let cache = {
+  data: null,
+  timestamp: null,
+  expiresIn: 30 * 60 * 1000 // 30분 캐시
+};
+
 app.use(cors());
 app.use(express.json());
 
@@ -13,6 +20,12 @@ app.use(express.json());
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || 'your_youtube_api_key_here';
 
 app.get('/api/youtube-weather', async (req, res) => {
+  // 캐시 확인
+  if (cache.data && cache.timestamp && (Date.now() - cache.timestamp) < cache.expiresIn) {
+    console.log('캐시된 데이터 반환');
+    return res.json(cache.data);
+  }
+
   try {
     console.log('YouTube API 요청 시작');
     console.log('API 키:', YOUTUBE_API_KEY);
@@ -61,7 +74,13 @@ app.get('/api/youtube-weather', async (req, res) => {
       videoUrl: `https://www.youtube.com/watch?v=${item.id}`
     }));
 
-    res.json({ videos });
+    const result = { videos };
+    
+    // 캐시에 저장
+    cache.data = result;
+    cache.timestamp = Date.now();
+    
+    res.json(result);
   } catch (error) {
     console.error('YouTube API Error:', error.response?.data || error.message);
     
@@ -72,52 +91,52 @@ app.get('/api/youtube-weather', async (req, res) => {
         {
           id: 'mock1',
           title: '오늘 날씨 예보 - 기상청 공식',
-          thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
+          thumbnail: 'https://img.youtube.com/vi/abc123/mqdefault.jpg',
           channel: '기상청 날씨',
           views: '15.2만',
-          publishedAt: '2025년 7월 7일',
+          publishedAt: '2025년 1월 15일',
           description: '오늘 전국 날씨 예보입니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+          videoUrl: 'https://www.youtube.com/watch?v=abc123'
         },
         {
           id: 'mock2',
           title: '주말 날씨 전망 - 폭염 주의보',
-          thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
+          thumbnail: 'https://img.youtube.com/vi/def456/mqdefault.jpg',
           channel: '날씨뉴스',
           views: '8.7만',
-          publishedAt: '2025년 7월 6일',
+          publishedAt: '2025년 1월 14일',
           description: '주말 날씨 전망과 폭염 주의보 발령 현황입니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+          videoUrl: 'https://www.youtube.com/watch?v=def456'
         },
         {
           id: 'mock3',
           title: '장마철 날씨 특징과 대비법',
-          thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
+          thumbnail: 'https://img.youtube.com/vi/ghi789/mqdefault.jpg',
           channel: '기상정보',
           views: '12.3만',
-          publishedAt: '2025년 7월 5일',
+          publishedAt: '2025년 1월 13일',
           description: '장마철 날씨의 특징과 대비 방법을 알아봅니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+          videoUrl: 'https://www.youtube.com/watch?v=ghi789'
         },
         {
           id: 'mock4',
           title: '미세먼지 예보와 건강 관리법',
-          thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
+          thumbnail: 'https://img.youtube.com/vi/jkl012/mqdefault.jpg',
           channel: '환경기상',
           views: '6.9만',
-          publishedAt: '2025년 7월 4일',
+          publishedAt: '2025년 1월 12일',
           description: '미세먼지 예보와 건강 관리 방법을 소개합니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+          videoUrl: 'https://www.youtube.com/watch?v=jkl012'
         },
         {
           id: 'mock5',
           title: '태풍 예보와 대비 방법',
-          thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
+          thumbnail: 'https://img.youtube.com/vi/mno345/mqdefault.jpg',
           channel: '기상특보',
           views: '22.1만',
-          publishedAt: '2025년 7월 3일',
+          publishedAt: '2025년 1월 11일',
           description: '태풍 예보와 대비 방법에 대해 알아봅니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+          videoUrl: 'https://www.youtube.com/watch?v=mno345'
         }
       ];
       res.json({ videos: mockVideos });
@@ -154,4 +173,6 @@ function formatDate(dateString) {
 app.listen(PORT, () => {
   console.log(`YouTube API Proxy 서버가 포트 ${PORT}에서 실행 중입니다.`);
   console.log(`API 키: ${YOUTUBE_API_KEY ? '설정됨' : '설정되지 않음'}`);
+  console.log(`캐시 시간: 30분`);
+  console.log(`최대 결과 수: 5개`);
 }); 
