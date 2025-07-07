@@ -3,6 +3,13 @@ import { FaCloudShowersHeavy } from 'react-icons/fa';
 import '../App.css';
 
 const HourlyRainfallBar = ({ data }) => {
+  // 시간 라벨 표시: 첫 번째만 '12시', 나머지는 '13', '14'처럼 숫자만
+  const getHourLabel = (hour, idx) => {
+    if (idx === 0) return hour;
+    // '13시' -> '13' 형태로 변환
+    return hour.replace('시', '');
+  };
+
   return (
     <div className="hourly-rainfall-container">
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start', flexWrap: 'nowrap' }}>
@@ -23,7 +30,7 @@ const HourlyRainfallBar = ({ data }) => {
               {Number(item.amount).toFixed(1)}mm
             </div>
             {/* 시간 */}
-            <div className="hourly-rainfall-hour">{item.hour}</div>
+            <div className="hourly-rainfall-hour">{getHourLabel(item.hour, idx)}</div>
           </div>
         ))}
       </div>

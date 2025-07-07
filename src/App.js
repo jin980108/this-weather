@@ -9,13 +9,16 @@ import CurrentTime from './component/CurrentTime';
 import Navbar from './component/Navbar';
 import { useLocation } from 'react-router-dom';
 import SubjectTitle from './component/SubjectTitle';
+import ScrollToTop from './component/ScrollToTop';
+import Lottie from 'lottie-react';
+import loadingAnim from './image/loading.json';
 
 function App() {
   const [weather, setWeather] = useState(null);
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
   const [forecast, setForecast] = useState([]);
-  const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Tokyo'];
+  const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Jeju','Tokyo'];
   const location = useLocation();
   
   const getCurrentLocation = () => {
@@ -80,11 +83,24 @@ function App() {
 
   return (
     <div>
+      <ScrollToTop />
       <Navbar />
       <SubjectTitle />
       {loading ? (
-        <div className="loading-container">
-          <ClipLoader color="white" loading={loading} size={150} />
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 2000,
+          background: 'rgba(0,0,0,0.3)'
+        }}>
+          <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
         </div>
       ) : (
         <div className="container">

@@ -6,7 +6,6 @@ const axios = require('axios');
 const app = express();
 const PORT = 5001;
 
-// 캐싱을 위한 변수
 let cache = {
   data: null,
   timestamp: null,
@@ -16,11 +15,10 @@ let cache = {
 app.use(cors());
 app.use(express.json());
 
-// YouTube API 키 (환경변수에서 가져오기)
-const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || 'your_youtube_api_key_here';
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || 'AIzaSyAYkehSF8AEZtH7pU5loa1Z1A2UK8tUxCc';
 
 app.get('/api/youtube-weather', async (req, res) => {
-  // 캐시 확인
+  
   if (cache.data && cache.timestamp && (Date.now() - cache.timestamp) < cache.expiresIn) {
     console.log('캐시된 데이터 반환');
     return res.json(cache.data);
@@ -84,7 +82,7 @@ app.get('/api/youtube-weather', async (req, res) => {
   } catch (error) {
     console.error('YouTube API Error:', error.response?.data || error.message);
     
-    // 할당량 초과 시 Mock 데이터 반환
+    // 할당량 초과 시 Mock 데이터 반환 (기본 데이터 - 최적화로 하루동안 쓸 수 있게 되면 삭제 예정)
     if (error.response?.status === 403 && error.response?.data?.error?.message?.includes('quota')) {
       console.log('할당량 초과로 Mock 데이터 반환');
       const mockVideos = [

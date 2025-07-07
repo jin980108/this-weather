@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import SubjectTitle from './SubjectTitle';
 import { ClipLoader } from 'react-spinners';
 import HourlyRainfallBar from './HourlyRainfallBar';
+import axios from "axios";
 
 const OPENWEATHER_API_KEY = '4d5dbe065d3aa1070e9e85970eb06298';
 
@@ -15,7 +16,6 @@ const RainfallInfo = () => {
     const fetchRainfall = async (lat, lon) => {
       setLoading(true);
       try {
-        // 1. 강수 예보 데이터
         const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=kr`;
         const res = await fetch(url);
         const data = await res.json();
@@ -31,26 +31,27 @@ const RainfallInfo = () => {
           setHourlyRainfall([]);
         }
 
-        // 2. 프록시 서버를 통한 네이버 Reverse Geocoding 요청 (임시 비활성화)
+        let locName = '알 수 없음';
         try {
-          const naverRes = await fetch(
-            `http://localhost:5002/api/naver-reverse-geocode?lat=${lat}&lon=${lon}`
-          );
-          const naverData = await naverRes.json();
-          let locName = '';
+          const kakaoApiKey = '6550b64c130e2cadfb3589a87910f551';
+          const kakaoUrl = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}`;
+          const kakaoRes = await axios.get(kakaoUrl, {
+            headers: {
+              Authorization: `KakaoAK ${kakaoApiKey}`
+            }
+          });
           if (
-            naverData.results &&
-            naverData.results[0] &&
-            naverData.results[0].region
+            kakaoRes.data.documents &&
+            kakaoRes.data.documents[0] &&
+            kakaoRes.data.documents[0].address
           ) {
-            const region = naverData.results[0].region;
-            locName = `${region.area1.name} ${region.area2.name}`;
+            const addr = kakaoRes.data.documents[0].address;
+            locName = `${addr.region_2depth_name} ${addr.region_3depth_name}`;
           }
-          setLocationName(locName);
         } catch (error) {
-          console.log('네이버 Reverse Geocoding 에러:', error);
-          setLocationName('서울시');
+          console.log('카카오 Reverse Geocoding 에러:', error);
         }
+        setLocationName(locName);
       } finally {
         setLoading(false);
       }

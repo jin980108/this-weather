@@ -7,16 +7,24 @@
 
 body{
   background: url(../src/image/images.jpg);
-  height: 100vh;
+  min-height: 120vh;
   overflow-x: hidden;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+body.weather-map-active {
+  overflow-y: hidden !important;
+}
+
+body.weather-news-active {
+  overflow-y: hidden !important;
+}
+
 .container{
   display: flex;
   justify-content: flex-start;
-  height: 100vh;
+  min-height: 120vh;
   margin-top: 100px;
   flex-direction: column;
 }
@@ -68,6 +76,8 @@ body{
   padding: 30px;
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.5);
+  width: 700px;
+  max-width: 90vw;
 }
 
 .weather-name{
@@ -179,10 +189,11 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left:150px;
+  padding-top:100px;
   gap: 30px;
-  min-height: 100vh;
+  min-height: 90vh;
   font-family: 'Pretendard', sans-serif;
+  overflow-y: hidden;
 }
 
 #weather-map {
@@ -247,10 +258,10 @@ body{
 
 .weathernews-container {
   display: flex;
-  align-items: stretch;
   justify-content: center;
+  align-items: stretch;
+  max-width: 1600px;
   margin: 100px auto 0 auto;
-  max-width: 1300px;
   min-height: 600px;
   background: none;
 }
@@ -260,7 +271,8 @@ body{
   display: flex;
   flex-direction: column;
   background: none;
-  min-width: 0;
+  min-width: 750px;
+  max-width: 750px;
 }
 
 .weathernews-title {
@@ -291,9 +303,11 @@ body{
 
 .weathernews-divider {
   width: 1px;
+  min-width: 1px;
   background-color: rgba(255,255,255,0.3);
   margin: 0 32px;
   min-height: 100%;
+  flex-shrink: 0;
 }
 
 .weathernews-youtube-card {
@@ -394,4 +408,16 @@ body{
   border: 2px solid white;
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+html {
+  overflow-y: scroll;
+}
+
+html.weather-map-active {
+  overflow-y: hidden !important;
+}
+
+html.weather-news-active {
+  overflow-y: hidden !important;
 }

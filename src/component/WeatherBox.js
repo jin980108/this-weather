@@ -6,11 +6,8 @@ import rainy from '../image/rainy.json';
 import foggy from '../image/foggy.json';
 
 const WeatherBox = ({ weather }) => {
-  console.log(weather);
-
   if (!weather?.name) return null;
 
-  // 날씨 설명을 자연스러운 한국어로 변환하는 함수
   const translateWeatherDescription = (description) => {
     const weatherMapping = {
       // 맑음
@@ -77,25 +74,86 @@ const WeatherBox = ({ weather }) => {
     return weatherMapping[description] || description;
   };
 
-  // 관심 도시 리스트
-  const favoriteCities = ['seoul', 'incheon', 'busan', 'daejeon', 'daegu', 'gwangju', 'junju', 'guri', 'sokcho','pohang', 'tokyo'];
+  // 관심 도시 리스트 (jeju, jejucity 모두 포함)
+  const favoriteCities = ['seoul', 'incheon', 'busan', 'daejeon', 'daegu', 'gwangju', 'junju', 'guri', 'sokcho','pohang','jeju','jejucity','tokyo'];
 
-  // 도시별 배경 이미지 URL 매핑
+  // 도시별 배경 이미지 URL 매핑 (jeju, jejucity 모두 포함)
   const cityBackgrounds = {
-    seoul: "https://images.unsplash.com/photo-1722074764794-3bd97ff3047c?w=1600&h=900&fit=crop", 
-    incheon: "https://images.unsplash.com/photo-1653818283100-115421ad43e8?w=1600&h=900&fit=crop", 
-    busan: "https://images.unsplash.com/photo-1638591751482-1a7d27fcea15?w=1600&h=900&fit=crop", 
-    daejeon: "https://images.unsplash.com/photo-1663038509302-a20dc8a24ad8?w=1600&h=900&fit=crop",
-    daegu: "https://images.unsplash.com/photo-1663670889635-0aabebf112ba?w=1600&h=900&fit=crop", 
-    gwangju: "https://images.unsplash.com/photo-1593419522851-05085541ad25?w=1600&h=900&fit=crop",
-    junju: "https://images.unsplash.com/photo-1548115184-bc6544d06a58?w=1600&h=900&fit=crop", 
-    guri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&h=900&fit=crop",
-    sokcho: "https://images.unsplash.com/photo-1660785462445-f9d21cad7ada?w=1600&h=900&fit=crop",
-    pohang: "https://images.unsplash.com/photo-1552230479-b7e43d576a7a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    tokyo: "https://images.unsplash.com/photo-1557409518-691ebcd96038?w=1600&h=900&fit=crop" 
+    seoul: "https://images.unsplash.com/photo-1722074764794-3bd97ff3047c?w=1920&auto=format&fit=crop", 
+    incheon: "https://images.unsplash.com/photo-1653818283100-115421ad43e8?w=1920&auto=format&fit=crop", 
+    busan: "https://images.unsplash.com/photo-1638591751482-1a7d27fcea15?w=1920&auto=format&fit=crop", 
+    daejeon: "https://images.unsplash.com/photo-1663038509302-a20dc8a24ad8?w=1920&auto=format&fit=crop",
+    daegu: "https://images.unsplash.com/photo-1663670889635-0aabebf112ba?w=1920&auto=format&fit=crop", 
+    gwangju: "https://images.unsplash.com/photo-1593419522851-05085541ad25?w=1920&auto=format&fit=crop",
+    junju: "https://images.unsplash.com/photo-1548115184-bc6544d06a58?w=1920&auto=format&fit=crop", 
+    guri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&auto=format&fit=crop",
+    sokcho: "https://images.unsplash.com/photo-1660785462445-f9d21cad7ada?w=1920&auto=format&fit=crop",
+    pohang: "https://images.unsplash.com/photo-1552230479-b7e43d576a7a?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    jejucity: "https://images.unsplash.com/photo-1659083899424-8a4c6bd0f48b?w=1920&auto=format&fit=crop",
+    jeju: "https://images.unsplash.com/photo-1659083899424-8a4c6bd0f48b?w=1920&auto=format&fit=crop",
+    tokyo: "https://images.unsplash.com/photo-1557409518-691ebcd96038?w=1920&auto=format&fit=crop" 
   };
 
-  const cityKey = weather?.name?.toLowerCase();
+  const cityNameMapping = {
+    'Seoul': '서울',
+    'Busan': '부산',
+    'Incheon': '인천',
+    'Daegu': '대구',
+    'Daejeon': '대전',
+    'Gwangju': '광주',
+    'Suwon': '수원',
+    'Ulsan': '울산',
+    'Seongnam': '성남',
+    'Bucheon': '부천',
+    'Ansan': '안산',
+    'Jeonju': '전주',
+    'Anyang': '안양',
+    'Pohang': '포항',
+    'Changwon': '창원',
+    'Jeju': '제주',
+    'Gangneung': '강릉',
+    'Chuncheon': '춘천',
+    'Wonju': '원주',
+    'Chungju': '충주',
+    'Cheongju': '청주',
+    'Jeju City': '제주',
+    'Gangneung-si': '강릉',
+    'Chuncheon-si': '춘천',
+    'Wonju-si': '원주',
+    'Chungju-si': '충주',
+    'Cheongju-si': '청주',
+    'Goyang': '고양',
+    'Yongin': '용인',
+    'Sejong': '세종',
+    'Gimhae': '김해',
+    'Gumi': '구미',
+    'Gunsan': '군산',
+    'Iksan': '익산',
+    'Mokpo': '목포',
+    'Suncheon': '순천',
+    'Jeonju-si': '전주',
+    'Gwangju-si': '광주',
+    'Daejeon-si': '대전',
+    'Daegu-si': '대구',
+    'Busan-si': '부산',
+    'Incheon-si': '인천',
+    'Seoul-si': '서울',
+    'Osong': '오송',
+    'Osong-eup': '오송',
+    'Gimpo': '김포',
+    'Paju': '파주',
+    'Guri': '구리',
+    'Osan': '오산',
+    'Siheung': '시흥',
+    'Uijeongbu': '의정부',
+    'Pyeongtaek': '평택',
+    'Junju': '전주',
+    'Sokcho': '속초',
+    'Tokyo': '도쿄'
+  };
+
+  // 도시명에서 소문자+공백제거로 key 변환
+  const cityKey = weather?.name?.toLowerCase().replace(/\s/g, "");
   const isFavorite = cityKey && favoriteCities.includes(cityKey) && cityBackgrounds[cityKey];
   const boxStyle = isFavorite
     ? {
@@ -118,21 +176,7 @@ const WeatherBox = ({ weather }) => {
       }
     : {};
 
-  const cityMap = {
-    seoul: "서울",
-    incheon: "인천",
-    busan: "부산",
-    daejeon: "대전",
-    daegu: "대구",
-    gwangju: "광주",
-    junju: "전주",
-    guri: "구리",
-    sokcho: "속초",
-    pohang: "포항",
-    tokyo: "도쿄" 
-  };
-
-  const translateCity = cityMap[weather.name?.toLowerCase()] || weather.name;
+  const translateCity = cityNameMapping[weather?.name] || weather.name;
   const weatherMain = weather.weather?.[0]?.main?.toLowerCase();
 
   let animationData = sunny;

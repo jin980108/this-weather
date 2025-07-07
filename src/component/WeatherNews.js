@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import SubjectTitle from './SubjectTitle';
-import { ClipLoader } from 'react-spinners';
+import Lottie from 'lottie-react';
+import loadingAnim from '../image/loading.json';
 
 const weatherKeywords = [
   '기상청', '태풍', '폭염', '미세먼지', '강풍', '호우', '한파', '폭설', '기상', '날씨', '우박', '비', '눈', '폭우', '장마', '황사', '건조', '대설', '한랭', '고온', '저온'
@@ -14,6 +15,15 @@ const WeatherNews = () => {
   const [youtubeLoading, setYoutubeLoading] = useState(true);
 
   useEffect(() => {
+    document.body.classList.add('weather-news-active');
+    document.documentElement.classList.add('weather-news-active');
+    return () => {
+      document.body.classList.remove('weather-news-active');
+      document.documentElement.classList.remove('weather-news-active');
+    };
+  }, []);
+
+  useEffect(() => {
     // 네이버 뉴스 가져오기
     fetch('http://localhost:5000/api/naver-news?q=날씨')
       .then(res => res.json())
@@ -22,7 +32,6 @@ const WeatherNews = () => {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching news:', error);
         setLoading(false);
       });
 
@@ -34,7 +43,6 @@ const WeatherNews = () => {
         setYoutubeLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching YouTube videos:', error);
         setYoutubeLoading(false);
       });
   }, []);
@@ -51,8 +59,20 @@ const WeatherNews = () => {
       <Navbar />
       <SubjectTitle />
       {(loading || youtubeLoading) ? (
-        <div className="loading-container">
-          <ClipLoader color="white" loading={true} size={150} />
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 2000,
+          background: 'rgba(0,0,0,0.3)'
+        }}>
+          <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
         </div>
       ) : (
         <div className="weathernews-container">
@@ -81,11 +101,6 @@ const WeatherNews = () => {
                 </div>
               </div>
             ))}
-            {filteredNews.length === 0 && (
-              <div style={{ color: '#888', fontFamily: 'Ownglyph_corncorn-Rg', textAlign: 'center', marginTop: 40 }}>
-                기상 관련 뉴스를 찾을 수 없습니다.
-              </div>
-            )}
           </div>
 
           {/* 중간 경계선 */}

@@ -3,12 +3,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../../App.css';
 import Navbar from '../Navbar';
 import SubjectTitle from '../SubjectTitle';
-import { ClipLoader } from 'react-spinners';
+import Lottie from 'lottie-react';
+import loadingAnim from '../../image/loading.json';
 
 const WeatherMap = () => {
   const mapRef = useRef(null);
   const [weatherInfo, setWeatherInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_MAP_CLIENT_ID;
   const NAVER_CLIENT_SECRET = process.env.REACT_APP_NAVER_MAP_CLIENT_SECRET;
@@ -116,24 +118,24 @@ const WeatherMap = () => {
     'snow': '❄️',
     'heavy snow': '❄️',
     'sleet': '🌨️',
-    'mist': '🌫️',
-    'smoke': '🌫️',
-    'haze': '🌫️',
-    'fog': '🌫️',
-    'sand': '🌫️',
-    'dust': '🌫️',
-    'volcanic ash': '🌋',
+    'mist': '☁️',           // 박무(안개 낀 다리)
+    'fog': '☁️',            // 안개
+    'haze': '☁️',          // 연무
+    'smoke': '☁️',          // 연기
+    'dust': '☁️',          // 먼지
+    'sand': '☁️',          // 모래
+    'volcanic ash': '🌋',   // 화산재
     'squalls': '💨',
     'tornado': '🌪️',
     'thunderstorm': '⛈️',
-    // 대분류
+    // 대분류 
     'clouds': '☁️',
     'rain': '🌧️',
     'snow': '❄️',
     'drizzle': '🌦️',
     'thunderstorm': '⛈️',
     'clear': '☀️',
-    'atmosphere': '🌫️'
+    'atmosphere': '☁️'
   };
 
   function getWeatherIcon(weatherData) {
@@ -152,9 +154,16 @@ const WeatherMap = () => {
     { name: 'Daejeon', lat: 36.3504, lng: 127.3845, koreanName: '대전' },
     { name: 'Gwangju', lat: 35.1595, lng: 126.8526, koreanName: '광주' },
     { name: 'Jeonju', lat: 35.8242, lng: 127.1480, koreanName: '전주' },
-    { name: 'Guri', lat: 37.5943, lng: 127.1296, koreanName: '구리' },
+    { name: 'Osong', lat: 36.6284, lng: 127.3307, koreanName: '오송' },
+    { name: 'Chungju', lat: 36.9910, lng: 127.9260, koreanName: '충주' },
+    { name: 'Wonju', lat: 37.3422, lng: 127.9202, koreanName: '원주' },
     { name: 'Sokcho', lat: 38.2070, lng: 128.5918, koreanName: '속초' },
     { name: 'Pohang', lat: 36.0190, lng: 129.3435, koreanName: '포항' },
+    { name: 'Yeosu', lat: 34.7604, lng: 127.6622, koreanName: '여수' },
+    { name: 'Tongyeong', lat: 34.8544, lng: 128.4336, koreanName: '통영' },
+    { name: 'Chuncheon', lat: 37.8813, lng: 127.7298, koreanName: '춘천' },
+    { name: 'Gangneung', lat: 37.7519, lng: 128.8761, koreanName: '강릉' },
+    { name: 'Jeju', lat: 33.4996, lng: 126.5312, koreanName: '제주' },
     { name: 'Tokyo', lat: 35.6762, lng: 139.6503, koreanName: '도쿄' }
   ];
 
@@ -195,7 +204,6 @@ const WeatherMap = () => {
     'Gunsan': '군산',
     'Iksan': '익산',
     'Mokpo': '목포',
-    'Yeosu': '여수',
     'Suncheon': '순천',
     'Gangneung-si': '강릉',
     'Chuncheon-si': '춘천',
@@ -212,57 +220,55 @@ const WeatherMap = () => {
   };
 
   useEffect(() => {
-  if (!NAVER_CLIENT_ID) {
-    console.error('NAVER_CLIENT_ID가 정의되지 않았습니다.');
-    return;
-  }
+    document.body.classList.add('weather-map-active');
+    document.documentElement.classList.add('weather-map-active');
+    return () => {
+      document.body.classList.remove('weather-map-active');
+      document.documentElement.classList.remove('weather-map-active');
+    };
+  }, []);
 
-  const script = document.createElement('script');
-  script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${NAVER_CLIENT_ID}`;
-  script.async = true;
-  script.onload = () => {
-    console.log('네이버 지도 스크립트 로드됨');
-    initMap();
-  };
-  script.onerror = () => {
-    console.error('네이버 지도 스크립트 로딩 실패');
-  };
-  document.head.appendChild(script);
-
-  return () => {
-    if (document.head.contains(script)) {
-      document.head.removeChild(script);
+  useEffect(() => {
+    if (!NAVER_CLIENT_ID) {
+      return;
     }
-  };
-}, [NAVER_CLIENT_ID]);
+
+    const script = document.createElement('script');
+    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${NAVER_CLIENT_ID}`;
+    script.async = true;
+    script.onload = () => {
+      initMap();
+    };
+    script.onerror = () => {
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, [NAVER_CLIENT_ID]);
 
   // 주요 도시들의 날씨 정보를 가져와서 마커로 표시하는 함수
   const loadWeatherMarkers = async (map) => {
     const naver = window.naver;
-    console.log('[진단] loadWeatherMarkers 실행, OPENWEATHER_KEY:', OPENWEATHER_KEY);
     if (!naver || !map) {
-      console.log('[진단] 네이버 지도 또는 맵이 없습니다');
+      setInitialLoading(false);
       return;
     }
-
-    console.log('[진단] 날씨 마커 로딩 시작...');
     const markers = [];
-
     for (const city of majorCities) {
       try {
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lng}&appid=${OPENWEATHER_KEY}&units=metric&lang=kr`;
-        console.log(`[진단] ${city.koreanName} 날씨 API 요청:`, weatherUrl);
         const weatherRes = await fetch(weatherUrl);
         const weatherData = await weatherRes.json();
-        console.log(`[진단] ${city.koreanName} 날씨 응답:`, weatherData);
 
         if (weatherData && weatherData.weather && weatherData.weather[0]) {
           const weatherDesc = weatherData.weather[0].description;
           const temp = Math.round(weatherData.main.temp);
           const icon = getWeatherIcon(weatherData);
           
-          console.log(`[진단] ${city.koreanName} 날씨 정보:`, { temp, weatherDesc, icon });
-
           const markerElement = document.createElement('div');
           markerElement.style.cssText = `
             background: rgba(0,0,0,0.45);
@@ -289,14 +295,12 @@ const WeatherMap = () => {
 
           const marker = new naver.maps.Marker({
             position: new naver.maps.LatLng(city.lat, city.lng),
-            map: map,
             icon: {
               content: markerElement,
               anchor: new naver.maps.Point(30, 30)
             }
           });
 
-          
           naver.maps.Event.addListener(marker, 'click', () => {
             setWeatherInfo({
               city: city.koreanName,
@@ -306,29 +310,33 @@ const WeatherMap = () => {
           });
 
           markers.push(marker);
-          console.log(`[진단] ${city.koreanName} 마커 생성 완료`);
-        } else {
-          console.log(`[진단] ${city.koreanName} 날씨 데이터 없음 또는 형식 오류`, weatherData);
         }
       } catch (error) {
-        console.error(`[진단] ${city.koreanName} 날씨 정보 로드 실패:`, error);
       }
     }
 
-    console.log(`[진단] 총 ${markers.length}개의 날씨 마커 생성됨`);
+    markers.forEach(marker => marker.setMap(map));
+    setInitialLoading(false);
   };
 
   const initMap = () => {
     const naver = window.naver;
-    console.log('[진단] initMap 실행');
     if (!naver || !mapRef.current) {
-      console.log('[진단] 네이버 객체 또는 mapRef 없음');
       return;
     }
 
+    const koreaBounds = new naver.maps.LatLngBounds(
+      new naver.maps.LatLng(33.0, 124.0), // 남서쪽
+      new naver.maps.LatLng(39.5, 132.0)  // 북동쪽
+    );
+
     const map = new naver.maps.Map(mapRef.current, {
-      center: new naver.maps.LatLng(37.5665, 126.9780),
+      center: new naver.maps.LatLng(35.5, 127.5),
       zoom: 7,
+      minZoom: 7,
+      maxZoom: 13,
+      maxBounds: koreaBounds,
+      draggable: false
     });
 
     loadWeatherMarkers(map);
@@ -351,24 +359,21 @@ const WeatherMap = () => {
       });
 
       try {
-        
-        let koreanAddress = '알 수 없음';
+        // 지도 클릭 시 지역명: openweathermap reverse geocoding API로 한글명 우선, 없으면 영어명, 둘 다 없으면 '알 수 없음'
+        let koreanAddress = '위치 검색 불가';
         try {
-          const geocodingUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lng}&limit=1&appid=${OPENWEATHER_KEY}`;
+          const geocodingUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lng}&limit=1&appid=${OPENWEATHER_KEY}`;
           const geocodingRes = await fetch(geocodingUrl);
           const geocodingData = await geocodingRes.json();
-
           if (geocodingData && geocodingData.length > 0) {
             const location = geocodingData[0];
             if (location.local_names && location.local_names.ko) {
-              const fullName = location.local_names.ko;
-              koreanAddress = simplifyCityName(fullName);
-            } else {
-              koreanAddress = cityNameMapping[location.name] || location.name;
+              koreanAddress = location.local_names.ko.replace(/(특별시|광역시|특별자치시|특별자치도|시|군|구|읍|면|동|리|가)$/g, '').trim(); //접미사 제거
+            } else if (location.name) {
+              koreanAddress = location.name;
             }
           }
         } catch (geocodingError) {
-          console.log('[진단] Geocoding 실패:', geocodingError);
         }
 
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${OPENWEATHER_KEY}&units=metric&lang=kr`;
@@ -382,7 +387,6 @@ const WeatherMap = () => {
         });
         setLoading(false);
       } catch (error) {
-        console.error('[진단] 클릭 위치 날씨 정보를 불러오는 데 실패:', error);
         setLoading(false);
       }
     });
@@ -392,7 +396,24 @@ const WeatherMap = () => {
     <>
       <Navbar />
       <SubjectTitle />
-      <div className="weather-container">
+      <div className="weather-container" style={{ position: 'relative', paddingBottom: '70px' }}>
+        {initialLoading && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 2000,
+            background: 'rgba(0,0,0,0.3)'
+          }}>
+            <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
+          </div>
+        )}
         <div
           id="weather-map"
           ref={mapRef}
@@ -400,19 +421,15 @@ const WeatherMap = () => {
         />
         <div className="weather-info-box-border">
           <div className="weather-info-box">
-            {loading ? (
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                <ClipLoader color="white" loading={loading} size={50} />
-              </div>
-            ) : weatherInfo ? (
+            {!weatherInfo ? (
+              <p className="guide">지도를 클릭하면 해당 지역의 날씨를 확인할 수 있습니다.</p>
+            ) : (
               <>
                 <div className="weather-info0">현재 <span>선택</span>된 지역의 날씨를 보여줍니다.</div>
                 <h3 className="weather-info1">{weatherInfo.city}</h3>
                 <p className="weather-info2">{weatherInfo.desc}</p>
                 <p className="weather-info3">{weatherInfo.temp}°C</p>
               </>
-            ) : (
-              <p className="guide">지도를 클릭하면 해당 지역의 날씨를 확인할 수 있습니다.</p>
             )}
           </div>
         </div>

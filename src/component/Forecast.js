@@ -83,7 +83,8 @@ const ForecastList = ({ forecast, weather }) => {
     junju: "전주",
     guri: "구리",
     sokcho: "속초",
-    tokyo: "도쿄" 
+    jejucity: "제주", 
+    tokyo: "도쿄",
   };
 
   const emojiMap = {
@@ -99,7 +100,7 @@ const ForecastList = ({ forecast, weather }) => {
     'mist': '🌫️',
   };
   
-  let translateCity = cityMap[weather.name?.toLowerCase()] || weather.name;
+  let translateCity = cityMap[weather.name?.toLowerCase().replace(/\s/g, "")] || weather.name;
 
   return (
     <>
