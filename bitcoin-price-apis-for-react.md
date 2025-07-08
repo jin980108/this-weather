@@ -2,7 +2,48 @@
 
 React 환경에서 비트코인 가격을 실시간으로 가져올 수 있는 다양한 API들과 구현 방법을 정리했습니다.
 
-## 📊 주요 무료 API 서비스
+## � 필수 Import 구문 및 설치
+
+### 기본 패키지 설치
+```bash
+# React 프로젝트 생성 (Create React App 사용시)
+npx create-react-app bitcoin-tracker
+cd bitcoin-tracker
+
+# 기본 HTTP 클라이언트
+npm install axios
+
+# 차트 라이브러리 (선택사항)
+npm install recharts
+
+# 유틸리티 라이브러리 (선택사항)
+npm install lodash
+```
+
+### 필수 Import 구문들
+```javascript
+// React 기본 imports
+import React, { useState, useEffect, useCallback } from 'react';
+
+// HTTP 클라이언트 (axios 사용시)
+import axios from 'axios';
+
+// 차트 라이브러리 (recharts 사용시)
+import { 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer 
+} from 'recharts';
+
+// 유틸리티 함수 (lodash 사용시)
+import { debounce } from 'lodash';
+```
+
+## �📊 주요 무료 API 서비스
 
 ### 1. CoinGecko API (무료)
 **가장 인기 있는 암호화폐 API 중 하나**
@@ -19,6 +60,8 @@ React 환경에서 비트코인 가격을 실시간으로 가져올 수 있는 �
 
 #### 예제 코드
 ```javascript
+import React, { useState, useEffect } from 'react';
+
 // 비트코인 현재 가격 가져오기
 const fetchBitcoinPrice = async () => {
   try {
@@ -31,8 +74,6 @@ const fetchBitcoinPrice = async () => {
 };
 
 // React 컴포넌트에서 사용
-import React, { useState, useEffect } from 'react';
-
 const BitcoinPrice = () => {
   const [price, setPrice] = useState(null);
 
@@ -57,6 +98,8 @@ const BitcoinPrice = () => {
     </div>
   );
 };
+
+export default BitcoinPrice;
 ```
 
 ### 2. CoinMarketCap API
@@ -69,6 +112,8 @@ const BitcoinPrice = () => {
 
 #### 예제 코드
 ```javascript
+import React, { useState, useEffect } from 'react';
+
 const fetchFromCoinMarketCap = async () => {
   try {
     const response = await fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC', {
@@ -93,6 +138,8 @@ const fetchFromCoinMarketCap = async () => {
 
 #### 예제 코드
 ```javascript
+import React, { useState, useEffect } from 'react';
+
 const fetchBinancePrice = async () => {
   try {
     const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
@@ -112,6 +159,8 @@ const fetchBinancePrice = async () => {
 
 #### 예제 코드
 ```javascript
+import React, { useState, useEffect } from 'react';
+
 const fetchCryptoComparePrice = async () => {
   try {
     const response = await fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD');
@@ -132,6 +181,8 @@ const fetchCryptoComparePrice = async () => {
 
 #### 예제 코드
 ```javascript
+import React, { useState, useEffect } from 'react';
+
 const fetchAPINinjasPrice = async () => {
   try {
     const response = await fetch('https://api.api-ninjas.com/v1/cryptoprice?symbol=BTCUSD', {
@@ -393,11 +444,15 @@ const BitcoinChart = () => {
     </div>
   );
 };
+
+export default BitcoinChart;
 ```
 
 ### 2. 여러 API를 활용한 데이터 비교
 
 ```javascript
+import React, { useState, useEffect } from 'react';
+
 const MultiSourcePriceComparison = () => {
   const [prices, setPrices] = useState({
     coingecko: null,
@@ -455,12 +510,16 @@ const MultiSourcePriceComparison = () => {
     </div>
   );
 };
+
+export default MultiSourcePriceComparison;
 ```
 
 ## 💡 모범 사례 및 팁
 
 ### 1. Error Handling과 로딩 상태 관리
 ```javascript
+import React, { useState, useEffect, useCallback } from 'react';
+
 const useBitcoinPrice = () => {
   const [data, setData] = useState({
     price: null,
@@ -502,9 +561,10 @@ const useBitcoinPrice = () => {
 
 ### 2. Rate Limiting 고려사항
 ```javascript
-// Debounced API 호출
+import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 
+// Debounced API 호출
 const debouncedFetch = debounce(fetchBitcoinPrice, 1000);
 
 // Rate limit 체크
@@ -520,6 +580,8 @@ const checkRateLimit = (response) => {
 
 ### 3. 캐싱 전략
 ```javascript
+import React, { useState, useEffect } from 'react';
+
 const CACHE_DURATION = 30000; // 30초
 let priceCache = { data: null, timestamp: null };
 
