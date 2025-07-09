@@ -1,20 +1,27 @@
 // WeatherMap.js
-import React, { useEffect, useRef, useState } from 'react';
+import Lottie from 'lottie-react';
+import { useEffect, useRef } from 'react';
 import '../../App.css';
+import loadingAnim from '../../image/loading.json';
+import useGlobalStore from '../../store/useGlobalStore';
 import Navbar from '../Navbar';
 import SubjectTitle from '../SubjectTitle';
-import Lottie from 'lottie-react';
-import loadingAnim from '../../image/loading.json';
 
 const WeatherMap = () => {
   const mapRef = useRef(null);
-  const [weatherInfo, setWeatherInfo] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
+  const weatherInfo = useGlobalStore((state) => state.weatherInfo);
+  const setWeatherInfo = useGlobalStore((state) => state.setWeatherInfo);
+  const setLoading = useGlobalStore((state) => state.setIsLoading);
+  const initialLoading = useGlobalStore((state) => state.initialLoading);
+  const setInitialLoading = useGlobalStore((state) => state.setInitialLoading);
 
   const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_MAP_CLIENT_ID;
   const NAVER_CLIENT_SECRET = process.env.REACT_APP_NAVER_MAP_CLIENT_SECRET;
   const OPENWEATHER_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
+
+  useEffect(() => {
+    setInitialLoading(true);
+  },[])
 
   // 도시명을 간단한 형식으로 변환하는 함수
   const simplifyCityName = (fullName) => {

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import useGlobalStore from '../store/useGlobalStore';
 
 const cityMap = {
   seoul: "서울",
@@ -16,25 +17,34 @@ const cityMap = {
   tokyo: "도쿄"
 };
 
-const WeatherButton = ({ cities, selectedCity, handleCityChange }) => {
+const WeatherButton = ({ cities }) => {
+  const city = useGlobalStore((state) => state.city);
+  const setCity = useGlobalStore((state) => state.setCity);
+  const handleCityChange = (city) => {
+    if (city === "current") {
+      setCity(null);
+    } else {
+      setCity(city);
+    }
+  };
   return (
     <>
     <div className="area-list">🏖️ 관심 도시</div>
     <div className="menu-container">
       <Button
-        variant={`${selectedCity == null ? "outline-primary" : "primary"}`}
+        variant={`${city == null ? "outline-primary" : "primary"}`}
         onClick={() => handleCityChange("current")}
       >
         현재 위치
       </Button>
 
-      {cities.map((city) => (
+      {cities.map((cityName) => (
         <Button
-          key = {city}
-          variant={`${selectedCity == city ? "outline-primary" : "primary"}`}
-          onClick={() => handleCityChange(city)}
+          key={cityName}
+          variant={`${city == cityName ? "outline-primary" : "primary"}`}
+          onClick={() => handleCityChange(cityName)}
         >
-          {cityMap[city.toLowerCase()] || city}
+          {cityMap[cityName.toLowerCase()] || cityName}
         </Button>
       ))}
     </div>

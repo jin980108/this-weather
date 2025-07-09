@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import useGlobalStore from '../store/useGlobalStore';
 import Navbar from './Navbar';
 import SubjectTitle from './SubjectTitle';
 import Lottie from 'lottie-react';
@@ -9,10 +10,19 @@ const weatherKeywords = [
 ];
 
 const WeatherNews = () => {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [youtubeVideos, setYoutubeVideos] = useState([]);
-  const [youtubeLoading, setYoutubeLoading] = useState(true);
+  const news = useGlobalStore((state) => state.newsData);
+  const setNews = useGlobalStore((state) => state.setNewsData);
+  const loading = useGlobalStore((state) => state.isLoading);
+  const setLoading = useGlobalStore((state) => state.setIsLoading);
+  const youtubeVideos = useGlobalStore((state) => state.youtubeVideos);
+  const setYoutubeVideos = useGlobalStore((state) => state.setYoutubeVideos);
+  const youtubeLoading = useGlobalStore((state) => state.youtubeLoading);
+  const setYoutubeLoading = useGlobalStore((state) => state.setYoutubeLoading);
+
+  useEffect(() => {
+    setLoading(true);
+    setYoutubeLoading(true);
+  },[]);
 
   useEffect(() => {
     document.body.classList.add('weather-news-active');
@@ -24,6 +34,7 @@ const WeatherNews = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     // 네이버 뉴스 가져오기
     fetch('http://localhost:5000/api/naver-news?q=날씨')
       .then(res => res.json())
@@ -35,7 +46,7 @@ const WeatherNews = () => {
         setLoading(false);
       });
 
-    
+    setYoutubeLoading(true);
     fetch('http://localhost:5001/api/youtube-weather?q=날씨 예보&maxResults=5')
       .then(res => res.json())
       .then(data => {
@@ -45,7 +56,7 @@ const WeatherNews = () => {
       .catch(error => {
         setYoutubeLoading(false);
       });
-  }, []);
+  }, [setLoading, setNews, setYoutubeLoading, setYoutubeVideos]);
 
   const filteredNews = news.filter(item =>
     weatherKeywords.some(keyword =>
@@ -54,11 +65,13 @@ const WeatherNews = () => {
     )
   );
 
+  const isAnyLoading = loading || youtubeLoading;
+
   return (
     <>
       <Navbar />
       <SubjectTitle />
-      {(loading || youtubeLoading) ? (
+      {isAnyLoading && (
         <div style={{
           position: 'fixed',
           top: 0,
@@ -74,11 +87,14 @@ const WeatherNews = () => {
         }}>
           <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
         </div>
-      ) : (
-        <div className="weathernews-container">
-          <div className="weathernews-section">
-            <h2 className="weathernews-title">날씨 뉴스</h2>
-            {filteredNews.slice(0, 5).map((item, idx) => (
+      )}
+      <div className="weathernews-container">
+        <div className="weathernews-section">
+          <h2 className="weathernews-title">날씨 뉴스</h2>
+          {filteredNews.length === 0 ? (
+            <div>뉴스가 없습니다.</div>
+          ) : (
+            filteredNews.slice(0, 5).map((item, idx) => (
               <div key={idx} className="weathernews-card">
                 {item.thumbnail && (
                   <img src={item.thumbnail} alt="" />
@@ -100,15 +116,19 @@ const WeatherNews = () => {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            ))
+          )}
+        </div>
 
-          {/* 중간 경계선 */}
-          <div className="weathernews-divider" />
+        {/* 중간 경계선 */}
+        <div className="weathernews-divider" />
 
-          <div className="weathernews-section">
-            <h2 className="weathernews-title">날씨 유튜브</h2>
-            {youtubeVideos.map((video, idx) => (
+        <div className="weathernews-section">
+          <h2 className="weathernews-title">날씨 유튜브</h2>
+          {youtubeVideos.length === 0 ? (
+            <div>유튜브 영상이 없습니다.</div>
+          ) : (
+            youtubeVideos.map((video, idx) => (
               <div
                 key={video.id}
                 className="weathernews-youtube-card"
@@ -121,10 +141,10 @@ const WeatherNews = () => {
                   <p className="weathernews-youtube-meta">조회수 {video.views} • {video.publishedAt}</p>
                 </div>
               </div>
-            ))}
-          </div>
+            ))
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };

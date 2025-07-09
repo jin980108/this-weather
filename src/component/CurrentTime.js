@@ -28,3 +28,13 @@ const CurrentTime = () => {
 };
 
 export default CurrentTime;
+
+export function getFormattedTime(date = new Date()) {
+  return date.toLocaleString('ko-KR', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+}

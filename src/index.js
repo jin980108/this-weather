@@ -16,8 +16,8 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/map" element={<WeatherMap />} />
-          <Route path="/news" element={<WeatherNews />} />
+          <Route path="/weathermap" element={<WeatherMap />} />
+          <Route path="/weathernews" element={<WeatherNews />} />
           <Route path="/rainfall" element={<RainfallInfo />} />
         </Routes>
       </BrowserRouter>

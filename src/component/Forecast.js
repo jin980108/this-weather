@@ -2,10 +2,15 @@ import React from 'react';
 import {
   ComposedChart, Line, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer
 } from 'recharts';
+import useGlobalStore from '../store/useGlobalStore';
 
-const ForecastList = ({ forecast, weather }) => {
+const ForecastList = () => {
+  const forecast = useGlobalStore((state) => state.forecast);
+  const weather = useGlobalStore((state) => state.weatherData);
+  const isLoading = useGlobalStore((state) => state.isLoading);
+
   if (!weather || !forecast) return null;
-  
+
   // 날씨 설명을 자연스러운 한국어로 변환하는 함수
   const translateWeatherDescription = (description) => {
     const weatherMapping = {

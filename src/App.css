@@ -6,7 +6,7 @@
 }
 
 body{
-  background: url(../src/image/images.jpg);
+  background: black !important;
   min-height: 120vh;
   overflow-x: hidden;
   background-repeat: no-repeat;
@@ -14,19 +14,29 @@ body{
 }
 
 body.weather-map-active {
-  overflow-y: hidden !important;
+  overflow-y: hidden;
 }
 
 body.weather-news-active {
-  overflow-y: hidden !important;
+  overflow-y: hidden;
+}
+
+.navbar-fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 3000;
 }
 
 .container{
+  margin: 0;
+  padding: 0;
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
-  min-height: 120vh;
-  margin-top: 100px;
-  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: flex-start;
+  flex-direction: column; 
 }
 
 .forecast-list {
@@ -72,12 +82,31 @@ body.weather-news-active {
 }
 
 .weather-box{
-  border: 2px solid white;
-  padding: 30px;
+  margin-left: 50px;
+  margin-top: 50px;
+  padding: 20px;
   border-radius: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 700px;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 500px;
   max-width: 90vw;
+
+}
+
+hr{
+  border:0px;
+  border-top: 1px solid rgba(255,255,255,0.5) !important;
+}
+
+.weather-current{
+  font-size:25px;
+  font-family: 'Ownglyph_corncorn-Rg', sans-serif;
+  color:white;
+}
+
+.weather-currenttime{
+  font-size:20px;
+  font-family: 'Ownglyph_corncorn-Rg', sans-serif;
+  color:rgba(255, 255, 255, 0.5);
 }
 
 .weather-name{
@@ -85,19 +114,20 @@ body.weather-news-active {
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
   font-size: 50px;
   text-align: left;
-  color:lightyellow;
+  color:white;
 }
 
-.weather-temp{
+.weather-name h2{
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
+  font-size:120px;
   text-align: left;
-  color:lightgreen;
+  color:white;
 }
 
 .weather-description{
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
   text-align: left;
-  color:skyblue;
+  color:white;
 }
 
 .menu-container{
@@ -129,17 +159,17 @@ body.weather-news-active {
   left:50px;
   top:20px;
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
-  font-size: 80px;
+  font-size: 30px;
   text-align: center;
-  color:lightyellow;
+  color:white;
   cursor: pointer;
 }
 
 .subject span{
-  font-size: 35px;
+  font-size: 17px;
   vertical-align: bottom;
   position: relative;
-  top:45px;
+  top:15px;
   margin-left:10px;
 }
 
@@ -155,8 +185,8 @@ body.weather-news-active {
 
 .lottie-icon{
   position: relative;
-  width:70px;
-  height:70px;
+  width:130px;
+  height:130px;
   left:10px;
   bottom:6px;
 }
@@ -189,7 +219,7 @@ body.weather-news-active {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top:100px;
+  margin-top:55px;
   gap: 30px;
   min-height: 90vh;
   font-family: 'Pretendard', sans-serif;
@@ -401,8 +431,8 @@ body.weather-news-active {
 }
 
 .rain-bg-box {
-  max-width: 600px;
-  margin: 80px auto 0 auto;
+  max-width: 700px;
+  margin: 120px 200px 200px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   border: 2px solid white;
@@ -420,4 +450,88 @@ html.weather-map-active {
 
 html.weather-news-active {
   overflow-y: hidden !important;
+}
+
+.city-name {
+  margin-top:20px;
+  font-family: 'Ownglyph_corncorn-Rg';
+  font-size: 20px;
+  color:rgba(255, 255, 255, 0.5);
+}
+
+.subject-search-input {
+  width: 500px;
+  padding-right: 40px;
+  padding: 6px 12px;
+  border: 1px solid black !important;
+  color: white;
+  border-radius: 20px !important;
+  background-color: rgba(255,255,255,0.1);
+  font-size: 20px;
+  font-family: 'Ownglyph_corncorn-Rg';
+  margin-top: 25px;
+  margin-left: 250px;
+}
+
+.searchglass-inside {
+  position: absolute;
+  right: 18px;
+  top: 65%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.searchglass-inside img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+.subject-title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.hello{
+  color:white;
+}
+
+.main-content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 40px;
+  margin-left: 30px;
+}
+
+.today-detail-box {
+  background: rgba(30, 30, 30, 0.95);
+  border-radius: 20px;
+  padding: 40px 40px;
+  color: white;
+  min-width: 1200px;
+  min-height: 420px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  font-size: 25px;
+  display: flex;
+  font-family: 'Ownglyph_corncorn-Rg';
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 50px;
+}
+
+.misae-box{
+  display: flex;
+  width:200px;
+  height:200px;
+  border: 1px solid white;
+  justify-content: center;
+  align-items: center;
 }

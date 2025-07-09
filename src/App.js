@@ -1,26 +1,51 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import WeatherBox from './component/WeatherBox';
 import WeatherButton from './component/WeatherButton';
-import { ClipLoader } from 'react-spinners';
 import ForecastList from './component/Forecast';
 import CurrentTime from './component/CurrentTime';
 import Navbar from './component/Navbar';
-import { useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import SubjectTitle from './component/SubjectTitle';
 import ScrollToTop from './component/ScrollToTop';
 import Lottie from 'lottie-react';
 import loadingAnim from './image/loading.json';
+import useGlobalStore from './store/useGlobalStore';
+import TodayDetail from './component/TodayDetail';
+import ClipLoader from 'react-spinners/ClipLoader';
 
-function App() {
-  const [weather, setWeather] = useState(null);
-  const [city, setCity] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [forecast, setForecast] = useState([]);
+// 한글 도시명을 영문으로 변환하는 매핑 테이블
+const cityNameToEnglish = {
+  '서울': 'Seoul',
+  '부산': 'Busan',
+  '인천': 'Incheon',
+  '대구': 'Daegu',
+  '대전': 'Daejeon',
+  '광주': 'Gwangju',
+  '전주': 'Jeonju',
+  '구리': 'Guri',
+  '속초': 'Sokcho',
+  '포항': 'Pohang',
+  '제주': 'Jeju',
+  '도쿄': 'Tokyo',
+  // 필요시 추가
+};
+
+function MainPage() {
+  const {
+    city,
+    setCity,
+    weatherData,
+    setWeatherData,
+    isLoading,
+    setIsLoading,
+    forecast,
+    setForecast
+  } = useGlobalStore();
   const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Jeju','Tokyo'];
   const location = useLocation();
-  
+
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
@@ -32,24 +57,27 @@ function App() {
 
   const getWeatherByCurrentLoaction = async(lat,lon) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=4d5dbe065d3aa1070e9e85970eb06298&units=metric`;
-    setLoading(true);
+    setIsLoading(true);
     let response = await fetch(url);
     let data = await response.json();
-    setWeather(data);
-    setLoading(false);
+    setWeatherData(data);
+    setIsLoading(false);
   };
 
+  // 한글 도시명을 영문으로 변환해서 API 호출
   const getWeatherByCity = async() => {
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4d5dbe065d3aa1070e9e85970eb06298&units=metric`;
-    setLoading(true);
+    let cityEn = cityNameToEnglish[city] || city;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityEn}&appid=4d5dbe065d3aa1070e9e85970eb06298&units=metric`;
+    setIsLoading(true);
     let response = await fetch(url);
     let data = await response.json();
-    setWeather(data);
-    setLoading(false);
+    setWeatherData(data);
+    setIsLoading(false);
   };
 
   const getForecastByCity = async () => {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=4d5dbe065d3aa1070e9e85970eb06298&units=metric`;
+    let cityEn = cityNameToEnglish[city] || city;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${cityEn}&appid=4d5dbe065d3aa1070e9e85970eb06298&units=metric`;
     const res = await fetch(url);
     const data = await res.json();
     setForecast(data.list);  
@@ -62,6 +90,7 @@ function App() {
     setForecast(data.list);
   };
 
+  // zustand setter로 변경
   const handleCityChange = (city) => {
     if (city === "current") {
       setCity(null);
@@ -79,14 +108,15 @@ function App() {
         getForecastByCity();
       }
     }
+    // eslint-disable-next-line
   }, [city, location.pathname]);
 
   return (
     <div>
       <ScrollToTop />
       <Navbar />
-      <SubjectTitle />
-      {loading ? (
+      <SubjectTitle onSearch={setCity} />
+      {isLoading ? (
         <div style={{
           position: 'fixed',
           top: 0,
@@ -103,13 +133,23 @@ function App() {
           <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
         </div>
       ) : (
-        <div className="container">
-          <CurrentTime />
-          <WeatherBox weather={weather} />
-          <ForecastList forecast={forecast} weather={weather} />
-          <WeatherButton cities={cities} handleCityChange={handleCityChange} selectedCity={city} />
-        </div>
+        <>
+          <div className="main-content-container">
+            <WeatherBox />
+            <TodayDetail />
+          </div>
+          <ForecastList />
+          <WeatherButton cities={cities} />
+        </>
       )}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <MainPage />
     </div>
   );
 }

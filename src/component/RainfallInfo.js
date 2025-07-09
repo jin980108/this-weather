@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import SubjectTitle from './SubjectTitle';
-import { ClipLoader } from 'react-spinners';
+import Lottie from 'lottie-react';
+import loadingAnim from '../image/loading.json';
 import HourlyRainfallBar from './HourlyRainfallBar';
 import axios from "axios";
+import useGlobalStore from '../store/useGlobalStore';
 
 const OPENWEATHER_API_KEY = '4d5dbe065d3aa1070e9e85970eb06298';
 
 const RainfallInfo = () => {
-  const [hourlyRainfall, setHourlyRainfall] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [locationName, setLocationName] = useState('');
+  const hourlyRainfall = useGlobalStore((state) => state.hourlyRainfall);
+  const setHourlyRainfall = useGlobalStore((state) => state.setHourlyRainfall);
+  const loading = useGlobalStore((state) => state.isLoading);
+  const setLoading = useGlobalStore((state) => state.setIsLoading);
+  const locationName = useGlobalStore((state) => state.locationName);
+  const setLocationName = useGlobalStore((state) => state.setLocationName);
 
   useEffect(() => {
     const fetchRainfall = async (lat, lon) => {
@@ -49,7 +54,7 @@ const RainfallInfo = () => {
             locName = `${addr.region_2depth_name} ${addr.region_3depth_name}`;
           }
         } catch (error) {
-          console.log('카카오 Reverse Geocoding 에러:', error);
+          // 카카오 Reverse Geocoding 에러 무시
         }
         setLocationName(locName);
       } finally {
@@ -72,23 +77,34 @@ const RainfallInfo = () => {
     } else {
       fetchRainfall(37.5665, 126.9780);
     }
-  }, []);
+  }, [setHourlyRainfall, setLoading, setLocationName]);
 
   return (
     <>
       <Navbar />
       <SubjectTitle />
+      {loading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 2000,
+          background: 'rgba(0,0,0,0.3)'
+        }}>
+          <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
+        </div>
+      )}
       <div className="rain-bg-box">
         <h2 style={{ fontFamily: 'Ownglyph_corncorn-Rg', fontSize: 22, marginBottom: 24, color: 'white', textAlign: 'center' }}>
           {locationName ? `${locationName} 시간별 강수 예보` : '시간별 강수 예보'}
         </h2>
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px 0' }}>
-            <ClipLoader color="#0077cc" loading={loading} size={50} />
-          </div>
-        ) : (
-          <HourlyRainfallBar data={hourlyRainfall} />
-        )}
+        {!loading && <HourlyRainfallBar data={hourlyRainfall} />}
       </div>
     </>
   );
