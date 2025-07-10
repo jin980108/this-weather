@@ -33,7 +33,6 @@ const Navbar = () => {
         padding: 0
       }}>
         <li onClick={() => navigate('/')} style={{ color: 'white', fontFamily: 'Ownglyph_corncorn-Rg', fontSize: '18px', padding: '6px 12px', borderRadius: '14px', cursor: 'pointer', transition: 'background 0.2s', background: 'rgba(255,255,255,0.08)' }}>메인</li>
-        <li onClick={() => navigate('/weathermap')} style={{ color: 'white', fontFamily: 'Ownglyph_corncorn-Rg', fontSize: '18px', padding: '6px 12px', borderRadius: '14px', cursor: 'pointer', transition: 'background 0.2s', background: 'rgba(255,255,255,0.08)' }}>날씨 지도</li>
         <li onClick={() => navigate('/weathernews')} style={{ color: 'white', fontFamily: 'Ownglyph_corncorn-Rg', fontSize: '18px', padding: '6px 12px', borderRadius: '14px', cursor: 'pointer', transition: 'background 0.2s', background: 'rgba(255,255,255,0.08)' }}>날씨 뉴스</li>
         <li onClick={() => navigate('/rainfall')} style={{ color: 'white', fontFamily: 'Ownglyph_corncorn-Rg', fontSize: '18px', padding: '6px 12px', borderRadius: '14px', cursor: 'pointer', transition: 'background 0.2s', background: 'rgba(255,255,255,0.08)' }}>강수량 정보</li>
       </ul>

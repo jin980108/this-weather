@@ -79,21 +79,22 @@ const ForecastList = () => {
   };
   
   const cityMap = {
-    seoul: "서울",
-    incheon: "인천",
-    busan: "부산",
-    daejeon: "대전",
-    daegu: "대구",
-    gwangju: "광주",
-    junju: "전주",
-    guri: "구리",
-    sokcho: "속초",
-    jejucity: "제주", 
-    tokyo: "도쿄",
+    seoul: "서울특별시",
+    incheon: "인천광역시",
+    busan: "부산광역시",
+    daejeon: "대전광역시",
+    daegu: "대구광역시",
+    gwangju: "광주광역시",
+    junju: "전주시",
+    guri: "구리시",
+    sokcho: "속초시",
+    pohang: "포항시",
+    jejucity: "제주시"
   };
 
   const emojiMap = {
     'clear sky': '☀️',
+    'moderate rain': '🌧️',
     'few clouds': '🌤️',
     'scattered clouds': '☁️',
     'broken clouds': '☁️',
@@ -111,7 +112,7 @@ const ForecastList = () => {
     <>
       <div className="forecast-title">📆 {translateCity} 일기예보</div>
       <div className="forecast-list">
-        {forecast.slice(0, 14).map((item, index) => {
+        {forecast.slice(0, 20).map((item, index) => {
           const emoji = emojiMap[item.weather?.[0]?.description] || '🌡️';
           return (
             <div key={index} className="forecast-item">

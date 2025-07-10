@@ -1,19 +1,20 @@
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Lottie from 'lottie-react';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import './App.css';
+import ForecastList from './component/Forecast';
+import Navbar from './component/Navbar';
+import ScrollToTop from './component/ScrollToTop';
+import SubjectTitle from './component/SubjectTitle';
+import TodayDetail from './component/TodayDetail';
 import WeatherBox from './component/WeatherBox';
 import WeatherButton from './component/WeatherButton';
-import ForecastList from './component/Forecast';
-import CurrentTime from './component/CurrentTime';
-import Navbar from './component/Navbar';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import SubjectTitle from './component/SubjectTitle';
-import ScrollToTop from './component/ScrollToTop';
-import Lottie from 'lottie-react';
 import loadingAnim from './image/loading.json';
 import useGlobalStore from './store/useGlobalStore';
-import TodayDetail from './component/TodayDetail';
-import ClipLoader from 'react-spinners/ClipLoader';
+import WeatherMap from './component/Page/WeatherMap';
+import WeatherNews from './component/WeatherNews';
+import Rainfallinfo from './component/RainfallInfo';
 
 // 한글 도시명을 영문으로 변환하는 매핑 테이블
 const cityNameToEnglish = {
@@ -27,8 +28,7 @@ const cityNameToEnglish = {
   '구리': 'Guri',
   '속초': 'Sokcho',
   '포항': 'Pohang',
-  '제주': 'Jeju',
-  '도쿄': 'Tokyo',
+  '제주': 'Jeju'
   // 필요시 추가
 };
 
@@ -43,7 +43,7 @@ function MainPage() {
     forecast,
     setForecast
   } = useGlobalStore();
-  const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Jeju','Tokyo'];
+  const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Jeju'];
   const location = useLocation();
 
   const getCurrentLocation = () => {
@@ -90,7 +90,7 @@ function MainPage() {
     setForecast(data.list);
   };
 
-  // zustand setter로 변경
+  // zustand로 refactoring
   const handleCityChange = (city) => {
     if (city === "current") {
       setCity(null);
@@ -138,8 +138,15 @@ function MainPage() {
             <WeatherBox />
             <TodayDetail />
           </div>
-          <ForecastList />
-          <WeatherButton cities={cities} />
+          <div className="forecast-and-map">
+            <ForecastList />
+            <div className="weather-map-center">
+              <WeatherMap />
+            </div>
+            {/* {<WeatherNews />} */}
+            {/* <Rainfallinfo /> */}
+            <WeatherButton cities={cities} />
+          </div>
         </>
       )}
     </div>

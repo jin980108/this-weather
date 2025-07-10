@@ -182,16 +182,6 @@ const WeatherBox = () => {
         <hr />
           <div className="city-name">{translateCity}</div>
           <div className="weather-currenttime">{currentTime}</div>
-       
-        {/* 상세 정보
-        
-          {weather?.wind?.speed !== undefined && (
-            <div>풍속: {weather.wind.speed} m/s</div>
-          )}
-          {weather?.main?.feels_like !== undefined && (
-            <div>체감온도: {Math.round(weather.main.feels_like)}°C</div>
-          )}
-        </div> */}
       </div>
     </div>
   );

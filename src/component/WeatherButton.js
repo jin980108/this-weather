@@ -13,8 +13,7 @@ const cityMap = {
   guri: "구리",
   sokcho: "속초",
   pohang: "포항",
-  jeju: "제주",
-  tokyo: "도쿄"
+  jeju: "제주"
 };
 
 const WeatherButton = ({ cities }) => {

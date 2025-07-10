@@ -19,19 +19,19 @@ const WeatherNews = () => {
   const youtubeLoading = useGlobalStore((state) => state.youtubeLoading);
   const setYoutubeLoading = useGlobalStore((state) => state.setYoutubeLoading);
 
-  useEffect(() => {
-    setLoading(true);
-    setYoutubeLoading(true);
-  },[]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setYoutubeLoading(true);
+  // },[]);
 
-  useEffect(() => {
-    document.body.classList.add('weather-news-active');
-    document.documentElement.classList.add('weather-news-active');
-    return () => {
-      document.body.classList.remove('weather-news-active');
-      document.documentElement.classList.remove('weather-news-active');
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.body.classList.add('weather-news-active');
+  //   document.documentElement.classList.add('weather-news-active');
+  //   return () => {
+  //     document.body.classList.remove('weather-news-active');
+  //     document.documentElement.classList.remove('weather-news-active');
+  //   };
+  // }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -43,6 +43,7 @@ const WeatherNews = () => {
         setLoading(false);
       })
       .catch(error => {
+        setNews([]);
         setLoading(false);
       });
 
@@ -54,6 +55,7 @@ const WeatherNews = () => {
         setYoutubeLoading(false);
       })
       .catch(error => {
+        setYoutubeVideos([]);
         setYoutubeLoading(false);
       });
   }, [setLoading, setNews, setYoutubeLoading, setYoutubeVideos]);
@@ -72,19 +74,7 @@ const WeatherNews = () => {
       <Navbar />
       <SubjectTitle />
       {isAnyLoading && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 2000,
-          background: 'rgba(0,0,0,0.3)'
-        }}>
+        <div className="weathernews-loading-overlay">
           <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
         </div>
       )}
@@ -100,12 +90,11 @@ const WeatherNews = () => {
                   <img src={item.thumbnail} alt="" />
                 )}
                 <div>
-                  <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ fontWeight: "bold", fontSize: 16, color: "#333", textDecoration: "none", fontFamily: 'Ownglyph_corncorn-Rg' }}>
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="weathernews-link">
                     {item.title.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')}
                   </a>
-                  <div style={{ fontSize: 14, color: "#555", margin: "4px 0", fontFamily: 'Ownglyph_corncorn-Rg' }}
-                    dangerouslySetInnerHTML={{ __html: item.description }} />
-                  <div style={{ fontSize: 12, color: "#888", fontFamily: 'Ownglyph_corncorn-Rg' }}>
+                  <div className="weathernews-desc" dangerouslySetInnerHTML={{ __html: item.description }} />
+                  <div className="weathernews-date">
                     {new Date(item.pubDate).toLocaleString('ko-KR', {
                       year: 'numeric',
                       month: 'long',

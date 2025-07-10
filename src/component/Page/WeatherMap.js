@@ -4,8 +4,6 @@ import { useEffect, useRef } from 'react';
 import '../../App.css';
 import loadingAnim from '../../image/loading.json';
 import useGlobalStore from '../../store/useGlobalStore';
-import Navbar from '../Navbar';
-import SubjectTitle from '../SubjectTitle';
 
 const WeatherMap = () => {
   const mapRef = useRef(null);
@@ -401,9 +399,7 @@ const WeatherMap = () => {
 
   return (
     <>
-      <Navbar />
-      <SubjectTitle />
-      <div className="weather-container" style={{ position: 'relative', paddingBottom: '70px' }}>
+      <div className="weather-container" style={{ position: 'relative', paddingTop: '70px' }}>
         {initialLoading && (
           <div style={{
             position: 'fixed',
@@ -421,25 +417,12 @@ const WeatherMap = () => {
             <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
           </div>
         )}
+        <div className="total-weather-info">📆 전국날씨</div>
         <div
           id="weather-map"
           ref={mapRef}
           style={{ width: '60vw', height: '70vh', border: '1px solid #ccc' }}
         />
-        <div className="weather-info-box-border">
-          <div className="weather-info-box">
-            {!weatherInfo ? (
-              <p className="guide">지도를 클릭하면 해당 지역의 날씨를 확인할 수 있습니다.</p>
-            ) : (
-              <>
-                <div className="weather-info0">현재 <span>선택</span>된 지역의 날씨를 보여줍니다.</div>
-                <h3 className="weather-info1">{weatherInfo.city}</h3>
-                <p className="weather-info2">{weatherInfo.desc}</p>
-                <p className="weather-info3">{weatherInfo.temp}°C</p>
-              </>
-            )}
-          </div>
-        </div>
       </div>
     </>
   );

@@ -1,9 +1,17 @@
 import { create } from 'zustand';
 
 const useGlobalStore = create((set) => ({
-  // 도시
+  // 현재 위치 도시
+  currentCity: null,
+  setCurrentCity: (city) => set({ currentCity: city }),
+
+  // 선택된 도시 (검색/선택)
+  selectedCity: null,
+  setSelectedCity: (city) => set({ selectedCity: city }),
+
+  // city는 selectedCity와 동일하게 동작 (호환성)
   city: null,
-  setCity: (city) => set({ city }),
+  setCity: (city) => set({ city, selectedCity: city }),
 
   // 날씨 데이터
   weatherData: null,
