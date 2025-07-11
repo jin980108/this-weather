@@ -58,7 +58,7 @@ const WeatherNews = () => {
         setYoutubeVideos([]);
         setYoutubeLoading(false);
       });
-  }, [setLoading, setNews, setYoutubeLoading, setYoutubeVideos]);
+  }, []); // zustand setter 함수들은 안정적이므로 의존성에서 제거
 
   const filteredNews = news.filter(item =>
     weatherKeywords.some(keyword =>
