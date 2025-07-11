@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import { useEffect } from 'react';
 import useGlobalStore from '../store/useGlobalStore';
 import Navbar from './Navbar';
 import SubjectTitle from './SubjectTitle';
 import Lottie from 'lottie-react';
 import loadingAnim from '../image/loading.json';
+=======
+import Lottie from 'lottie-react';
+import { useEffect, useState } from 'react';
+import loadingAnim from '../image/loading.json';
+import useGlobalStore from '../store/useGlobalStore';
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 
 const weatherKeywords = [
   '기상청', '태풍', '폭염', '미세먼지', '강풍', '호우', '한파', '폭설', '기상', '날씨', '우박', '비', '눈', '폭우', '장마', '황사', '건조', '대설', '한랭', '고온', '저온'
@@ -12,6 +19,7 @@ const weatherKeywords = [
 const WeatherNews = () => {
   const news = useGlobalStore((state) => state.newsData);
   const setNews = useGlobalStore((state) => state.setNewsData);
+<<<<<<< HEAD
   const loading = useGlobalStore((state) => state.isLoading);
   const setLoading = useGlobalStore((state) => state.setIsLoading);
   const youtubeVideos = useGlobalStore((state) => state.youtubeVideos);
@@ -35,16 +43,35 @@ const WeatherNews = () => {
 
   useEffect(() => {
     setLoading(true);
+=======
+  const youtubeVideos = useGlobalStore((state) => state.youtubeVideos);
+  const setYoutubeVideos = useGlobalStore((state) => state.setYoutubeVideos);
+
+  // 로컬 상태로 변경
+  const [newsLoading, setNewsLoading] = useState(false);
+  const [youtubeLoading, setYoutubeLoading] = useState(false);
+
+  useEffect(() => {
+    setNewsLoading(true);
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
     // 네이버 뉴스 가져오기
     fetch('http://localhost:5000/api/naver-news?q=날씨')
       .then(res => res.json())
       .then(data => {
         setNews(data.items || []);
+<<<<<<< HEAD
         setLoading(false);
       })
       .catch(error => {
         setNews([]);
         setLoading(false);
+=======
+        setNewsLoading(false);
+      })
+      .catch(error => {
+        setNews([]);
+        setNewsLoading(false);
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
       });
 
     setYoutubeLoading(true);
@@ -58,7 +85,11 @@ const WeatherNews = () => {
         setYoutubeVideos([]);
         setYoutubeLoading(false);
       });
+<<<<<<< HEAD
   }, [setLoading, setNews, setYoutubeLoading, setYoutubeVideos]);
+=======
+  }, [setNews, setYoutubeVideos]); // 의존성 최소화
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 
   const filteredNews = news.filter(item =>
     weatherKeywords.some(keyword =>
@@ -67,12 +98,19 @@ const WeatherNews = () => {
     )
   );
 
+<<<<<<< HEAD
   const isAnyLoading = loading || youtubeLoading;
 
   return (
     <>
       <Navbar />
       <SubjectTitle />
+=======
+  const isAnyLoading = newsLoading || youtubeLoading;
+
+  return (
+    <>
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
       {isAnyLoading && (
         <div className="weathernews-loading-overlay">
           <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />

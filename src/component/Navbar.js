@@ -33,7 +33,10 @@ const Navbar = () => {
         padding: 0
       }}>
         <li onClick={() => navigate('/')} style={{ color: 'white', fontFamily: 'Ownglyph_corncorn-Rg', fontSize: '18px', padding: '6px 12px', borderRadius: '14px', cursor: 'pointer', transition: 'background 0.2s', background: 'rgba(255,255,255,0.08)' }}>메인</li>
+<<<<<<< HEAD
         <li onClick={() => navigate('/weathernews')} style={{ color: 'white', fontFamily: 'Ownglyph_corncorn-Rg', fontSize: '18px', padding: '6px 12px', borderRadius: '14px', cursor: 'pointer', transition: 'background 0.2s', background: 'rgba(255,255,255,0.08)' }}>날씨 뉴스</li>
+=======
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
         <li onClick={() => navigate('/rainfall')} style={{ color: 'white', fontFamily: 'Ownglyph_corncorn-Rg', fontSize: '18px', padding: '6px 12px', borderRadius: '14px', cursor: 'pointer', transition: 'background 0.2s', background: 'rgba(255,255,255,0.08)' }}>강수량 정보</li>
       </ul>
     </nav>

@@ -7,7 +7,11 @@ import HourlyRainfallBar from './HourlyRainfallBar';
 import axios from "axios";
 import useGlobalStore from '../store/useGlobalStore';
 
+<<<<<<< HEAD
 const OPENWEATHER_API_KEY = '4d5dbe065d3aa1070e9e85970eb06298';
+=======
+const OPENWEATHER_API_KEY = 'aa6cfec2cc4259f35fba680eed295eda';
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 
 const RainfallInfo = () => {
   const hourlyRainfall = useGlobalStore((state) => state.hourlyRainfall);

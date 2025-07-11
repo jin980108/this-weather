@@ -19,10 +19,17 @@ const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || 'AIzaSyAYkehSF8AEZtH7pU5l
 
 app.get('/api/youtube-weather', async (req, res) => {
   
+<<<<<<< HEAD
   if (cache.data && cache.timestamp && (Date.now() - cache.timestamp) < cache.expiresIn) {
     console.log('캐시된 데이터 반환');
     return res.json(cache.data);
   }
+=======
+  // if (cache.data && cache.timestamp && (Date.now() - cache.timestamp) < cache.expiresIn) {
+  //   console.log('캐시된 데이터 반환');
+  //   return res.json(cache.data);
+  // }
+>>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 
   try {
     console.log('YouTube API 요청 시작');
