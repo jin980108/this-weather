@@ -58,15 +58,10 @@ function MainPage() {
   const getWeatherByCurrentLoaction = async(lat,lon) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=4d5dbe065d3aa1070e9e85970eb06298&units=metric`;
     setIsLoading(true);
-    try {
-      let response = await fetch(url);
-      let data = await response.json();
-      setWeatherData(data);
-    } catch (error) {
-      console.error('Weather API error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    let response = await fetch(url);
+    let data = await response.json();
+    setWeatherData(data);
+    setIsLoading(false);
   };
 
   // 한글 도시명을 영문으로 변환해서 API 호출
@@ -74,15 +69,10 @@ function MainPage() {
     let cityEn = cityNameToEnglish[city] || city;
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityEn}&appid=4d5dbe065d3aa1070e9e85970eb06298&units=metric`;
     setIsLoading(true);
-    try {
-      let response = await fetch(url);
-      let data = await response.json();
-      setWeatherData(data);
-    } catch (error) {
-      console.error('Weather API error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    let response = await fetch(url);
+    let data = await response.json();
+    setWeatherData(data);
+    setIsLoading(false);
   };
 
   const getForecastByCity = async () => {

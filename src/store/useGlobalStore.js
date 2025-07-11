@@ -40,7 +40,7 @@ const useGlobalStore = create((set) => ({
   setNewsData: (data) => set({ newsData: data }),
   youtubeVideos: [],
   setYoutubeVideos: (videos) => set({ youtubeVideos: videos }),
-  youtubeLoading: false,
+  youtubeLoading: true,
   setYoutubeLoading: (val) => set({ youtubeLoading: val }),
 
   // 강수 정보

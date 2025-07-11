@@ -77,7 +77,7 @@ const RainfallInfo = () => {
     } else {
       fetchRainfall(37.5665, 126.9780);
     }
-  }, []); // zustand setter 함수들은 안정적이므로 의존성에서 제거
+  }, [setHourlyRainfall, setLoading, setLocationName]);
 
   return (
     <>
