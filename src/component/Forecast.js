@@ -89,12 +89,8 @@ const ForecastList = () => {
     guri: "구리시",
     sokcho: "속초시",
     pohang: "포항시",
-<<<<<<< HEAD
-    jejucity: "제주시"
-=======
     jejucity: "제주시",
     "cheongju-si": "청주시"
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   };
 
   const emojiMap = {
@@ -109,11 +105,8 @@ const ForecastList = () => {
     'thunderstorm': '⛈️',
     'snow': '❄️',
     'mist': '🌫️',
-<<<<<<< HEAD
-=======
     'heavy intensity rain': '🌧️',
     'very heavy rain': '🌧️',
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   };
   
   let translateCity = cityMap[weather.name?.toLowerCase().replace(/\s/g, "")] || weather.name;

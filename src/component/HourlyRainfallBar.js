@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaCloudShowersHeavy } from 'react-icons/fa';
 import '../App.css';
 
@@ -13,7 +12,7 @@ const HourlyRainfallBar = ({ data }) => {
   return (
     <div className="hourly-rainfall-container">
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start', flexWrap: 'nowrap' }}>
-        {data.map((item, idx) => (
+        {(data || []).map((item, idx) => (
           <div
             key={idx}
             className="hourly-rainfall-box"

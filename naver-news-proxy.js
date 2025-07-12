@@ -25,4 +25,4 @@ app.get('/api/naver-news', async (req, res) => {
 });
 
 const PORT = 5000;
-app.listen(PORT, () => console.log(`Naver News Proxy running on port ${PORT}`)); 
+app.listen(PORT, () => {}); 

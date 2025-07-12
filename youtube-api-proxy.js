@@ -19,27 +19,16 @@ const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || 'AIzaSyAYkehSF8AEZtH7pU5l
 
 app.get('/api/youtube-weather', async (req, res) => {
   
-<<<<<<< HEAD
-  if (cache.data && cache.timestamp && (Date.now() - cache.timestamp) < cache.expiresIn) {
-    console.log('캐시된 데이터 반환');
-    return res.json(cache.data);
-  }
-=======
   // if (cache.data && cache.timestamp && (Date.now() - cache.timestamp) < cache.expiresIn) {
   //   console.log('캐시된 데이터 반환');
   //   return res.json(cache.data);
   // }
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 
   try {
-    console.log('YouTube API 요청 시작');
-    console.log('API 키:', YOUTUBE_API_KEY);
     
     const query = req.query.q || '날씨 예보';
     const maxResults = req.query.maxResults || 5;
     
-    console.log('검색 쿼리:', query);
-    console.log('최대 결과 수:', maxResults);
     
     const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
@@ -52,11 +41,9 @@ app.get('/api/youtube-weather', async (req, res) => {
       }
     });
 
-    console.log('검색 결과:', response.data.items.length, '개');
     
     // 비디오 ID 목록 추출
     const videoIds = response.data.items.map(item => item.id.videoId).join(',');
-    console.log('비디오 ID들:', videoIds);
     
     // 비디오 상세 정보 가져오기 (조회수, 업로드 날짜 등)
     const videoDetailsResponse = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
@@ -96,52 +83,52 @@ app.get('/api/youtube-weather', async (req, res) => {
         {
           id: 'mock1',
           title: '오늘 날씨 예보 - 기상청 공식',
-          thumbnail: 'https://img.youtube.com/vi/abc123/mqdefault.jpg',
+          thumbnail: 'https://via.placeholder.com/320x180/4A90E2/FFFFFF?text=날씨+예보',
           channel: '기상청 날씨',
           views: '15.2만',
           publishedAt: '2025년 1월 15일',
           description: '오늘 전국 날씨 예보입니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=abc123'
+          videoUrl: '#'
         },
         {
           id: 'mock2',
           title: '주말 날씨 전망 - 폭염 주의보',
-          thumbnail: 'https://img.youtube.com/vi/def456/mqdefault.jpg',
+          thumbnail: 'https://via.placeholder.com/320x180/FF6B6B/FFFFFF?text=폭염+주의보',
           channel: '날씨뉴스',
           views: '8.7만',
           publishedAt: '2025년 1월 14일',
           description: '주말 날씨 전망과 폭염 주의보 발령 현황입니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=def456'
+          videoUrl: '#'
         },
         {
           id: 'mock3',
           title: '장마철 날씨 특징과 대비법',
-          thumbnail: 'https://img.youtube.com/vi/ghi789/mqdefault.jpg',
+          thumbnail: 'https://via.placeholder.com/320x180/4ECDC4/FFFFFF?text=장마철+대비',
           channel: '기상정보',
           views: '12.3만',
           publishedAt: '2025년 1월 13일',
           description: '장마철 날씨의 특징과 대비 방법을 알아봅니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=ghi789'
+          videoUrl: '#'
         },
         {
           id: 'mock4',
           title: '미세먼지 예보와 건강 관리법',
-          thumbnail: 'https://img.youtube.com/vi/jkl012/mqdefault.jpg',
+          thumbnail: 'https://via.placeholder.com/320x180/45B7D1/FFFFFF?text=미세먼지+관리',
           channel: '환경기상',
           views: '6.9만',
           publishedAt: '2025년 1월 12일',
           description: '미세먼지 예보와 건강 관리 방법을 소개합니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=jkl012'
+          videoUrl: '#'
         },
         {
           id: 'mock5',
           title: '태풍 예보와 대비 방법',
-          thumbnail: 'https://img.youtube.com/vi/mno345/mqdefault.jpg',
+          thumbnail: 'https://via.placeholder.com/320x180/96CEB4/FFFFFF?text=태풍+대비',
           channel: '기상특보',
           views: '22.1만',
           publishedAt: '2025년 1월 11일',
           description: '태풍 예보와 대비 방법에 대해 알아봅니다.',
-          videoUrl: 'https://www.youtube.com/watch?v=mno345'
+          videoUrl: '#'
         }
       ];
       res.json({ videos: mockVideos });

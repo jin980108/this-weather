@@ -44,15 +44,6 @@ body.weather-news-active {
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-<<<<<<< HEAD
-  margin-top: 5px;
-  margin-left: 75px;
-  padding:20px;
-  width: 100%;
-  max-width: 1750px;
-  border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.1);
-=======
   margin-left: 75px;
   margin-bottom: 20px;
   padding: 20px;
@@ -61,7 +52,6 @@ body.weather-news-active {
   border-radius: 30px;
   background-color: rgba(255, 255, 255, 0.1);
   margin-top: -30px;
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 }
 
 .forecast-title, .area-list{
@@ -69,11 +59,7 @@ body.weather-news-active {
   text-align: left;
   color:white;
   font-size: 25px;
-<<<<<<< HEAD
-  padding: 50px 0px 0px 70px;
-=======
   padding: 50px 0px 0px 71px;
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 }
 
 .forecast-item {
@@ -230,11 +216,7 @@ hr{
 }
 
 #weather-map {
-<<<<<<< HEAD
-  margin-top:20px;
-=======
   margin-top:10px;
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   margin-left:70px;
   width: 100%;
   max-width: 400px;
@@ -276,10 +258,6 @@ hr{
 }
 
 .weather-info0{
-<<<<<<< HEAD
-  margin-bottom: 20px;
-=======
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   font-size: 25px;
   font-family: 'Ownglyph_corncorn-Rg', sans-serif;
   color:lightyellow;
@@ -330,11 +308,6 @@ hr{
   display: flex;
   flex-direction: column;
   background: none;
-<<<<<<< HEAD
-  min-width: 750px;
-  max-width: 750px;
-=======
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 }
 
 .weathernews-title {
@@ -352,11 +325,7 @@ hr{
 }
 
 .weathernews-card {
-<<<<<<< HEAD
-  background: rgba(255,255,255,0.85);
-=======
   background: rgba(0,0,0,0.3);
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   padding: 16px;
@@ -370,22 +339,14 @@ hr{
 .weathernews-divider {
   width: 1px;
   min-width: 1px;
-<<<<<<< HEAD
-  background-color: rgba(255,255,255,0.3);
-=======
   background-color: rgba(255,255,255,0.1);
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   margin: 0 32px;
   min-height: 100%;
   flex-shrink: 0;
 }
 
 .weathernews-youtube-card {
-<<<<<<< HEAD
-  background: rgba(255,255,255,0.85);
-=======
   background: rgba(0,0,0,0.3);
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   padding: 16px;
@@ -409,36 +370,22 @@ hr{
 }
 
 .weathernews-youtube-title {
-<<<<<<< HEAD
-  font-weight: bold;
-  font-size: 16px;
-  color: #333;
-=======
   font-size: 16px;
   color: white;
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   margin-bottom: 8px;
   font-family: 'Ownglyph_corncorn-Rg';
 }
 
 .weathernews-youtube-channel {
   font-size: 14px;
-<<<<<<< HEAD
-  color: #666;
-=======
   color: rgba(255,255,255,0.6);
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   margin-bottom: 4px;
   font-family: 'Ownglyph_corncorn-Rg';
 }
 
 .weathernews-youtube-meta {
   font-size: 12px;
-<<<<<<< HEAD
-  color: #888;
-=======
   color: rgba(255,255,255,0.6);
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   font-family: 'Ownglyph_corncorn-Rg';
 }
 
@@ -668,10 +615,7 @@ html.weather-news-active {
   font-size: 25px;
   color: white;
   margin-left: 65px;
-<<<<<<< HEAD
-=======
   margin-bottom: 10px;
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 }
 
 .weathernews-loading-overlay {
@@ -689,35 +633,21 @@ html.weather-news-active {
 }
 
 .weathernews-link {
-<<<<<<< HEAD
-  font-weight: bold;
-  font-size: 16px;
-  color: #333;
-=======
   font-size: 16px;
   color: white;
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   text-decoration: none;
   font-family: 'Ownglyph_corncorn-Rg';
 }
 
 .weathernews-desc {
   font-size: 14px;
-<<<<<<< HEAD
-  color: #555;
-=======
   color: rgba(255,255,255,0.6);
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   margin: 4px 0;
   font-family: 'Ownglyph_corncorn-Rg';
 }
 
 .weathernews-date {
   font-size: 12px;
-<<<<<<< HEAD
-  color: #888;
-  font-family: 'Ownglyph_corncorn-Rg';
-=======
   color: rgba(255,255,255,0.6);;
   font-family: 'Ownglyph_corncorn-Rg';
 }
@@ -733,8 +663,7 @@ html.weather-news-active {
 
 .weather-news-center {
   width: 100vw;
-  height: 60.5vh;
-  max-width: 1315px;
+  max-width: 1310px;
   background: rgba(255,255,255,0.08);
   border-radius: 30px;
   display: flex;
@@ -763,5 +692,4 @@ html.weather-news-active {
   gap: 40px;
   align-items: flex-start;
   margin-top: 30px;
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 }

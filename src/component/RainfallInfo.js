@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import SubjectTitle from './SubjectTitle';
 import Lottie from 'lottie-react';
@@ -7,65 +7,86 @@ import HourlyRainfallBar from './HourlyRainfallBar';
 import axios from "axios";
 import useGlobalStore from '../store/useGlobalStore';
 
-<<<<<<< HEAD
-const OPENWEATHER_API_KEY = '4d5dbe065d3aa1070e9e85970eb06298';
-=======
 const OPENWEATHER_API_KEY = 'aa6cfec2cc4259f35fba680eed295eda';
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
 
 const RainfallInfo = () => {
   const hourlyRainfall = useGlobalStore((state) => state.hourlyRainfall);
   const setHourlyRainfall = useGlobalStore((state) => state.setHourlyRainfall);
-  const loading = useGlobalStore((state) => state.isLoading);
-  const setLoading = useGlobalStore((state) => state.setIsLoading);
-  const locationName = useGlobalStore((state) => state.locationName);
-  const setLocationName = useGlobalStore((state) => state.setLocationName);
+  
+  // 로컬 상태로 변경
+  const [loading, setLoading] = useState(false);
+  const [locationName, setLocationName] = useState('');
+  const [error, setError] = useState(null);
+  
+  const fetchRainfall = async (lat, lon) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // 429 에러 방지를 위한 지연
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=kr`;
+      const res = await fetch(url);
+      
+      if (!res.ok) {
+        if (res.status === 429) {
+          throw new Error('API 호출 제한에 걸렸습니다. 잠시 후 다시 시도해주세요.');
+        }
+        throw new Error(`Weather API error: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      
+      if (data.list) {
+        const rainfallData = data.list.slice(0, 12).map(item => {
+          const date = new Date(item.dt * 1000);
+          const hour = date.getHours() + '시';
+          const amount = item.rain && item.rain['3h'] ? item.rain['3h'] : 0;
+          return { hour, amount };
+        });
+        setHourlyRainfall(rainfallData);
+      } else {
+        setHourlyRainfall([]);
+      }
+
+      // 위치명 가져오기
+      let locName = '알 수 없음';
+      try {
+        const kakaoApiKey = '6550b64c130e2cadfb3589a87910f551';
+        const kakaoUrl = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}`;
+        const kakaoRes = await axios.get(kakaoUrl, {
+          headers: {
+            Authorization: `KakaoAK ${kakaoApiKey}`
+          }
+        });
+        
+        if (
+          kakaoRes.data.documents &&
+          kakaoRes.data.documents[0] &&
+          kakaoRes.data.documents[0].address
+        ) {
+          const addr = kakaoRes.data.documents[0].address;
+          locName = `${addr.region_2depth_name} ${addr.region_3depth_name}`;
+        }
+      } catch (kakaoError) {
+        console.log('카카오 API 에러:', kakaoError);
+        // 카카오 API 에러는 무시하고 기본값 사용
+      }
+      
+      setLocationName(locName);
+      
+    } catch (error) {
+      console.error('강수량 데이터 가져오기 실패:', error);
+      setError(error.message || '강수량 정보를 가져오는데 실패했습니다.');
+      setHourlyRainfall([]);
+      setLocationName('알 수 없음');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchRainfall = async (lat, lon) => {
-      setLoading(true);
-      try {
-        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=kr`;
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.list) {
-          const rainfallData = data.list.slice(0, 12).map(item => {
-            const date = new Date(item.dt * 1000);
-            const hour = date.getHours() + '시';
-            const amount = item.rain && item.rain['3h'] ? item.rain['3h'] : 0;
-            return { hour, amount };
-          });
-          setHourlyRainfall(rainfallData);
-        } else {
-          setHourlyRainfall([]);
-        }
-
-        let locName = '알 수 없음';
-        try {
-          const kakaoApiKey = '6550b64c130e2cadfb3589a87910f551';
-          const kakaoUrl = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}`;
-          const kakaoRes = await axios.get(kakaoUrl, {
-            headers: {
-              Authorization: `KakaoAK ${kakaoApiKey}`
-            }
-          });
-          if (
-            kakaoRes.data.documents &&
-            kakaoRes.data.documents[0] &&
-            kakaoRes.data.documents[0].address
-          ) {
-            const addr = kakaoRes.data.documents[0].address;
-            locName = `${addr.region_2depth_name} ${addr.region_3depth_name}`;
-          }
-        } catch (error) {
-          // 카카오 Reverse Geocoding 에러 무시
-        }
-        setLocationName(locName);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -74,19 +95,21 @@ const RainfallInfo = () => {
           fetchRainfall(lat, lon);
         },
         (err) => {
-          fetchRainfall(37.5665, 126.9780);
+          console.log('위치 권한 거부 또는 에러:', err);
+          fetchRainfall(37.5665, 126.9780); // 서울 좌표로 fallback
         },
         { timeout: 5000 }
       );
     } else {
       fetchRainfall(37.5665, 126.9780);
     }
-  }, [setHourlyRainfall, setLoading, setLocationName]);
+  }, []);
 
   return (
     <>
       <Navbar />
       <SubjectTitle />
+      
       {loading && (
         <div style={{
           position: 'fixed',
@@ -104,11 +127,25 @@ const RainfallInfo = () => {
           <Lottie animationData={loadingAnim} style={{ width: 140, height: 140 }} />
         </div>
       )}
+      
       <div className="rain-bg-box">
         <h2 style={{ fontFamily: 'Ownglyph_corncorn-Rg', fontSize: 22, marginBottom: 24, color: 'white', textAlign: 'center' }}>
           {locationName ? `${locationName} 시간별 강수 예보` : '시간별 강수 예보'}
         </h2>
-        {!loading && <HourlyRainfallBar data={hourlyRainfall} />}
+        
+        {error && (
+          <div style={{
+            color: '#ff6b6b',
+            textAlign: 'center',
+            marginBottom: '20px',
+            fontFamily: 'Ownglyph_corncorn-Rg',
+            fontSize: '16px'
+          }}>
+            {error}
+          </div>
+        )}
+        
+        {!loading && !error && <HourlyRainfallBar data={hourlyRainfall} />}
       </div>
     </>
   );

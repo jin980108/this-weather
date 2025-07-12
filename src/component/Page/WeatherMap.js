@@ -169,11 +169,7 @@ const WeatherMap = () => {
     { name: 'Chuncheon', lat: 37.8813, lng: 127.7298, koreanName: '춘천' },
     { name: 'Gangneung', lat: 37.7519, lng: 128.8761, koreanName: '강릉' },
     { name: 'Jeju', lat: 33.4996, lng: 126.5312, koreanName: '제주' },
-<<<<<<< HEAD
-    { name: 'Tokyo', lat: 35.6762, lng: 139.6503, koreanName: '도쿄' }
-=======
     { name: 'Andong', lat: 36.5684, lng: 128.7294, koreanName: '안동'}
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   ];
 
   // 한국 주요 도시 영어명을 한국어로 매핑 (확장)
@@ -259,8 +255,6 @@ const WeatherMap = () => {
     };
   }, [NAVER_CLIENT_ID]);
 
-<<<<<<< HEAD
-=======
   // --- MOCK DATA START ---
   const cityWeatherMock = {
     Seoul:    { temp: 25, desc: "맑음", icon: "☀️" },
@@ -284,7 +278,6 @@ const WeatherMap = () => {
   };
   // --- MOCK DATA END ---
 
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
   // 주요 도시들의 날씨 정보를 가져와서 마커로 표시하는 함수
   const loadWeatherMarkers = async (map) => {
     const naver = window.naver;
@@ -294,64 +287,6 @@ const WeatherMap = () => {
     }
     const markers = [];
     for (const city of majorCities) {
-<<<<<<< HEAD
-      try {
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lng}&appid=${OPENWEATHER_KEY}&units=metric&lang=kr`;
-        const weatherRes = await fetch(weatherUrl);
-        const weatherData = await weatherRes.json();
-
-        if (weatherData && weatherData.weather && weatherData.weather[0]) {
-          const weatherDesc = weatherData.weather[0].description;
-          const temp = Math.round(weatherData.main.temp);
-          const icon = getWeatherIcon(weatherData);
-          
-          const markerElement = document.createElement('div');
-          markerElement.style.cssText = `
-            background: rgba(0,0,0,0.45);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 10px;
-            border: none;
-            font-size: 15px;
-            font-family: 'Ownglyph_corncorn-Rg', sans-serif;
-            font-weight: normal;
-            text-align: center;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-            cursor: pointer;
-            min-width: 40px;
-            margin: 0;
-            line-height: 1.2;
-          `;
-          
-          markerElement.innerHTML = `
-            <div style="font-size: 18px; margin-bottom: 0;">${icon}</div>
-            <div style="font-size: 12px; margin-bottom: 0;">${city.koreanName}</div>
-            <div style="font-size: 13px;">${temp}°C</div>
-          `;
-
-          const marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(city.lat, city.lng),
-            icon: {
-              content: markerElement,
-              anchor: new naver.maps.Point(30, 30)
-            }
-          });
-
-          naver.maps.Event.addListener(marker, 'click', () => {
-            setWeatherInfo({
-              city: city.koreanName,
-              temp: temp,
-              desc: translateWeatherDescription(weatherDesc),
-            });
-          });
-
-          markers.push(marker);
-        }
-      } catch (error) {
-      }
-    }
-
-=======
       let temp, weatherDesc, icon;
       try {
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lng}&appid=${OPENWEATHER_KEY}&units=metric&lang=kr`;
@@ -406,7 +341,6 @@ const WeatherMap = () => {
       });
       markers.push(marker);
     }
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
     markers.forEach(marker => marker.setMap(map));
     setInitialLoading(false);
   };
@@ -486,11 +420,7 @@ const WeatherMap = () => {
 
   return (
     <>
-<<<<<<< HEAD
-      <div className="weather-container" style={{ position: 'relative', paddingTop: '70px' }}>
-=======
       <div className="weather-container" style={{ position: 'relative', paddingTop: '50px'}}>
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
         {initialLoading && (
           <div style={{
             position: 'fixed',

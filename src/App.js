@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './App.css';
 import ForecastList from './component/Forecast';
+import HourlyRainfallBar from './component/HourlyRainfallBar';
 import Navbar from './component/Navbar';
 import WeatherMap from './component/Page/WeatherMap';
 import ScrollToTop from './component/ScrollToTop';
@@ -14,6 +15,7 @@ import WeatherButton from './component/WeatherButton';
 import WeatherNews from './component/WeatherNews';
 import loadingAnim from './image/loading.json';
 import useGlobalStore from './store/useGlobalStore';
+import RainfallInfo from './component/RainfallInfo';
 
 // 한글 도시명을 영문으로 변환하는 매핑 테이블
 const cityNameToEnglish = {
@@ -40,7 +42,10 @@ function MainPage() {
     isLoading,
     setIsLoading,
     forecast,
-    setForecast
+    setForecast,
+    setSelectedCity,
+    hourlyRainfall,
+    setHourlyRainfall
   } = useGlobalStore();
   const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Jeju'];
   const location = useLocation();
@@ -120,6 +125,13 @@ function MainPage() {
     });
   };
 
+  // 실제 강수량 데이터 fetch
+  useEffect(() => {
+    fetch('/api/rainfall')
+      .then(res => res.json())
+      .then(data => setHourlyRainfall(data));
+  }, [setHourlyRainfall]);
+  
   // 기존 API 호출 useEffect 복구
   useEffect(() => {
     if(location.pathname === "/") { 
@@ -138,6 +150,7 @@ function MainPage() {
   //   setWeatherData(seoulWeatherMock);
   //   setForecast(seoulForecastMock);
   // }, [setWeatherData, setForecast]);
+
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
@@ -186,10 +199,13 @@ function MainPage() {
   const handleCityChange = (city) => {
     if (city === "current") {
       setCity(null);
+      setSelectedCity(null);
     } else {
       setCity(city);
+      setSelectedCity(city);
     }
   };
+
   return (
     <div>
       <ScrollToTop />
@@ -200,11 +216,7 @@ function MainPage() {
           position: 'fixed',
           top: 0,
           left: 0,
-<<<<<<< HEAD
-          width: '100vw',
-=======
           width: '60vw',
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
           height: '100vh',
           display: 'flex',
           flexDirection: 'column',
@@ -223,13 +235,6 @@ function MainPage() {
           </div>
           <div className="forecast-and-map">
             <ForecastList />
-<<<<<<< HEAD
-            <div className="weather-map-center">
-              <WeatherMap />
-            </div>
-            {/* {<WeatherNews />} */}
-            {/* <Rainfallinfo /> */}
-=======
             <div style={{ display: 'flex', flexDirection: 'row', gap: '40px', alignItems: 'flex-start', marginTop: '30px' }}>
               <div className="weather-map-center">
                 <WeatherMap />
@@ -238,7 +243,7 @@ function MainPage() {
                 <WeatherNews />
               </div>
             </div>
->>>>>>> 82b7a5e (전체 UI 구성 변경 및 레이아웃 변경, 뉴스 및 유튜브 정보 원페이지 형태로 메인에 추가 및 네비게이션 삭제)
+            <HourlyRainfallBar data={hourlyRainfall} />
             <WeatherButton cities={cities} />
           </div>
         </>
