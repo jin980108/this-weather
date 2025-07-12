@@ -255,29 +255,7 @@ const WeatherMap = () => {
     };
   }, [NAVER_CLIENT_ID]);
 
-  // --- MOCK DATA START ---
-  const cityWeatherMock = {
-    Seoul:    { temp: 25, desc: "맑음", icon: "☀️" },
-    Busan:    { temp: 27, desc: "구름 조금", icon: "🌤️" },
-    Incheon:  { temp: 24, desc: "비", icon: "🌧️" },
-    Daegu:    { temp: 28, desc: "맑음", icon: "☀️" },
-    Daejeon:  { temp: 26, desc: "흐림", icon: "☁️" },
-    Gwangju:  { temp: 27, desc: "비", icon: "🌧️" },
-    Jeonju:   { temp: 25, desc: "맑음", icon: "☀️" },
-    Osong:    { temp: 24, desc: "구름 많음", icon: "☁️" },
-    Chungju:  { temp: 23, desc: "비", icon: "🌧️" },
-    Wonju:    { temp: 24, desc: "맑음", icon: "☀️" },
-    Sokcho:   { temp: 22, desc: "흐림", icon: "☁️" },
-    Pohang:   { temp: 26, desc: "맑음", icon: "☀️" },
-    Yeosu:    { temp: 25, desc: "비", icon: "🌧️" },
-    Tongyeong:{ temp: 24, desc: "구름 조금", icon: "🌤️" },
-    Chuncheon:{ temp: 23, desc: "맑음", icon: "☀️" },
-    Gangneung:{ temp: 22, desc: "흐림", icon: "☁️" },
-    Jeju:     { temp: 27, desc: "맑음", icon: "☀️" },
-    Tokyo:    { temp: 29, desc: "맑음", icon: "☀️" }
-  };
-  // --- MOCK DATA END ---
-
+  // (fetch/axios로 전국 마커, 지도 날씨 정보 등 원래 로직 복구)
   // 주요 도시들의 날씨 정보를 가져와서 마커로 표시하는 함수
   const loadWeatherMarkers = async (map) => {
     const naver = window.naver;
@@ -287,59 +265,55 @@ const WeatherMap = () => {
     }
     const markers = [];
     for (const city of majorCities) {
-      let temp, weatherDesc, icon;
       try {
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lng}&appid=${OPENWEATHER_KEY}&units=metric&lang=kr`;
-        const res = await fetch(weatherUrl);
-        const data = await res.json();
-        temp = Math.round(data.main?.temp);
-        weatherDesc = translateWeatherDescription(data.weather?.[0]?.description);
-        icon = getWeatherIcon(data);
-      } catch (e) {
-        // fetch 실패 시 mock 데이터 fallback
-        const mock = cityWeatherMock[city.name];
-        if (!mock) continue;
-        temp = mock.temp;
-        weatherDesc = mock.desc;
-        icon = mock.icon;
-      }
-      const markerElement = document.createElement('div');
-      markerElement.style.cssText = `
-        background: rgba(0,0,0,0.45);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 10px;
-        border: none;
-        font-size: 15px;
-        font-family: 'Ownglyph_corncorn-Rg', sans-serif;
-        font-weight: normal;
-        text-align: center;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-        cursor: pointer;
-        min-width: 40px;
-        margin: 0;
-        line-height: 1.2;
-      `;
-      markerElement.innerHTML = `
-        <div style="font-size: 18px; margin-bottom: 0;">${icon}</div>
-        <div style="font-size: 12px; margin-bottom: 0;">${city.koreanName}</div>
-        <div style="font-size: 13px;">${temp}°C</div>
-      `;
-      const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(city.lat, city.lng),
-        icon: {
-          content: markerElement,
-          anchor: new naver.maps.Point(30, 30)
-        }
-      });
-      naver.maps.Event.addListener(marker, 'click', () => {
-        setWeatherInfo({
-          city: city.koreanName,
-          temp: temp,
-          desc: weatherDesc,
+        const weatherRes = await fetch(weatherUrl);
+        const weatherData = await weatherRes.json();
+
+        const temp = weatherData.main?.temp ?? 'N/A';
+        const weatherDesc = translateWeatherDescription(weatherData.weather?.[0]?.description) ?? '정보 없음';
+        const icon = getWeatherIcon(weatherData);
+
+        const markerElement = document.createElement('div');
+        markerElement.style.cssText = `
+          background: rgba(0,0,0,0.45);
+          color: white;
+          padding: 4px 8px;
+          border-radius: 10px;
+          border: none;
+          font-size: 15px;
+          font-family: 'Ownglyph_corncorn-Rg', sans-serif;
+          font-weight: normal;
+          text-align: center;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+          cursor: pointer;
+          min-width: 40px;
+          margin: 0;
+          line-height: 1.2;
+        `;
+        markerElement.innerHTML = `
+          <div style="font-size: 18px; margin-bottom: 0;">${icon}</div>
+          <div style="font-size: 12px; margin-bottom: 0;">${city.koreanName}</div>
+          <div style="font-size: 13px;">${Number(temp).toFixed(1)}°C</div>
+        `;
+        const marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(city.lat, city.lng),
+          icon: {
+            content: markerElement,
+            anchor: new naver.maps.Point(30, 30)
+          }
         });
-      });
-      markers.push(marker);
+        naver.maps.Event.addListener(marker, 'click', () => {
+          setWeatherInfo({
+            city: city.koreanName,
+            temp: Number(temp).toFixed(1),
+            desc: weatherDesc,
+          });
+        });
+        markers.push(marker);
+      } catch (error) {
+        console.error(`Error fetching weather for ${city.name}:`, error);
+      }
     }
     markers.forEach(marker => marker.setMap(map));
     setInitialLoading(false);
@@ -408,7 +382,7 @@ const WeatherMap = () => {
 
         setWeatherInfo({
           city: koreanAddress,
-          temp: weatherData.main?.temp ?? 'N/A',
+          temp: weatherData.main?.temp ? Number(weatherData.main.temp).toFixed(1) : 'N/A',
           desc: translateWeatherDescription(weatherData.weather?.[0]?.description) ?? '정보 없음',
         });
         setLoading(false);

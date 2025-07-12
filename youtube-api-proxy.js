@@ -83,7 +83,7 @@ app.get('/api/youtube-weather', async (req, res) => {
         {
           id: 'mock1',
           title: '오늘 날씨 예보 - 기상청 공식',
-          thumbnail: 'https://via.placeholder.com/320x180/4A90E2/FFFFFF?text=날씨+예보',
+          thumbnail: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=320&h=180&fit=crop&crop=center',
           channel: '기상청 날씨',
           views: '15.2만',
           publishedAt: '2025년 1월 15일',
@@ -93,7 +93,7 @@ app.get('/api/youtube-weather', async (req, res) => {
         {
           id: 'mock2',
           title: '주말 날씨 전망 - 폭염 주의보',
-          thumbnail: 'https://via.placeholder.com/320x180/FF6B6B/FFFFFF?text=폭염+주의보',
+          thumbnail: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=320&h=180&fit=crop&crop=center',
           channel: '날씨뉴스',
           views: '8.7만',
           publishedAt: '2025년 1월 14일',
@@ -103,7 +103,7 @@ app.get('/api/youtube-weather', async (req, res) => {
         {
           id: 'mock3',
           title: '장마철 날씨 특징과 대비법',
-          thumbnail: 'https://via.placeholder.com/320x180/4ECDC4/FFFFFF?text=장마철+대비',
+          thumbnail: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=320&h=180&fit=crop&crop=center',
           channel: '기상정보',
           views: '12.3만',
           publishedAt: '2025년 1월 13일',
@@ -113,7 +113,7 @@ app.get('/api/youtube-weather', async (req, res) => {
         {
           id: 'mock4',
           title: '미세먼지 예보와 건강 관리법',
-          thumbnail: 'https://via.placeholder.com/320x180/45B7D1/FFFFFF?text=미세먼지+관리',
+          thumbnail: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=320&h=180&fit=crop&crop=center',
           channel: '환경기상',
           views: '6.9만',
           publishedAt: '2025년 1월 12일',
@@ -123,7 +123,7 @@ app.get('/api/youtube-weather', async (req, res) => {
         {
           id: 'mock5',
           title: '태풍 예보와 대비 방법',
-          thumbnail: 'https://via.placeholder.com/320x180/96CEB4/FFFFFF?text=태풍+대비',
+          thumbnail: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=320&h=180&fit=crop&crop=center',
           channel: '기상특보',
           views: '22.1만',
           publishedAt: '2025년 1월 11일',

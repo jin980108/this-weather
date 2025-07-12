@@ -51,7 +51,7 @@ const SEOUL_AREA_NO = '1100000000';
 const SUN_API_URL = 'http://localhost:5002/api/sun';
 
 function getPm10Grade(val) {
-  if (val === null || val === '' || isNaN(val)) return { image: null, label: '정보 없음' };
+  if (val === '') return { image: null, label: '정보 없음' };
   val = Number(val);
   if (val <= 30) return { image: goodImage};
   if (val <= 80) return { image: sosoImage};
@@ -59,7 +59,7 @@ function getPm10Grade(val) {
   return { image: terribleImage};
 }
 function getPm25Grade(val) {
-  if (val === null || val === '' || isNaN(val)) return { image: null, label: '정보 없음' };
+  if (val === '') return { image: null, label: '정보 없음' };
   val = Number(val);
   if (val <= 15) return { image: goodImage};
   if (val <= 35) return { image: sosoImage};
@@ -360,7 +360,7 @@ const TodayDetail = () => {
           <div className="misae-box-sun">일몰 <div className="sun-time">
             {sunset ? `${sunset.slice(0,2)}:${sunset.slice(2,4)}` : ''} AM
           </div>
-          </div>   
+          </div>
         </div>
       </div>
       {/* 풍속 박스: 미세먼지 아래에 같은 디자인으로 */}

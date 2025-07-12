@@ -6,10 +6,13 @@ import rainy from '../image/rainy.json';
 import foggy from '../image/foggy.json';
 import useGlobalStore from '../store/useGlobalStore';
 import { getFormattedTime } from './CurrentTime';
+import { Button } from 'react-bootstrap';
 
 const WeatherBox = () => {
   const weather = useGlobalStore((state) => state.weatherData);
   const isLoading = useGlobalStore((state) => state.isLoading);
+  const city = useGlobalStore((state) => state.city);
+  const setCity = useGlobalStore((state) => state.setCity);
 
   if (!weather?.name) return null;
 
@@ -152,6 +155,14 @@ const WeatherBox = () => {
       }
     : {};
 
+  const handleCityChange = (city) => {
+    if (city === "current") {
+      setCity(null);
+    } else {
+      setCity(city);
+    }
+  };
+ 
   const translateCity = cityNameMapping[weather?.name] || weather.name;
   const weatherMain = weather.weather?.[0]?.main?.toLowerCase();
 
@@ -166,7 +177,9 @@ const WeatherBox = () => {
   return (
     <div className="weather-box">
       <div style={contentStyle}>
-        <div className="weather-current">현재</div>
+        <div className="weather-current">현재<Button variant={`${city == null ? "outline-primary" : "primary"}`}
+        onClick={() => handleCityChange("current")}
+      >asd</Button></div>
         <div className="weather-name">
            {weather?.main?.temp !== undefined && (
           <div className="weather-temp">

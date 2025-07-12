@@ -50,52 +50,6 @@ function MainPage() {
   const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Jeju'];
   const location = useLocation();
 
-  // --- MOCK DATA START ---
-  const seoulWeatherMock = {
-    name: "Seoul",
-    main: {
-      temp: 23.5,
-      feels_like: 24.0,
-      temp_min: 21.0,
-      temp_max: 26.0,
-      humidity: 60,
-    },
-    weather: [
-      {
-        main: "Clear",
-        description: "clear sky",
-        icon: "01d"
-      }
-    ],
-    wind: {
-      speed: 2.5
-    }
-  };
-
-  const seoulForecastMock = [
-    { dt: 1720708800, main: { temp: 24 }, weather: [{ main: "Clouds", description: "few clouds", icon: "02d" }] },
-    { dt: 1720719600, main: { temp: 25 }, weather: [{ main: "Clear", description: "clear sky", icon: "01d" }] },
-    { dt: 1720730400, main: { temp: 26 }, weather: [{ main: "Clouds", description: "scattered clouds", icon: "03d" }] },
-    { dt: 1720741200, main: { temp: 27 }, weather: [{ main: "Rain", description: "light rain", icon: "10d" }] },
-    { dt: 1720752000, main: { temp: 26 }, weather: [{ main: "Clouds", description: "broken clouds", icon: "04d" }] },
-    { dt: 1720762800, main: { temp: 25 }, weather: [{ main: "Clear", description: "clear sky", icon: "01d" }] },
-    { dt: 1720773600, main: { temp: 24 }, weather: [{ main: "Clouds", description: "few clouds", icon: "02d" }] },
-    { dt: 1720784400, main: { temp: 23 }, weather: [{ main: "Rain", description: "moderate rain", icon: "10d" }] },
-    { dt: 1720795200, main: { temp: 22 }, weather: [{ main: "Clouds", description: "overcast clouds", icon: "04d" }] },
-    { dt: 1720806000, main: { temp: 21 }, weather: [{ main: "Clear", description: "clear sky", icon: "01d" }] },
-    { dt: 1720816800, main: { temp: 22 }, weather: [{ main: "Clouds", description: "few clouds", icon: "02d" }] },
-    { dt: 1720827600, main: { temp: 23 }, weather: [{ main: "Rain", description: "light rain", icon: "10d" }] },
-    { dt: 1720838400, main: { temp: 24 }, weather: [{ main: "Clouds", description: "scattered clouds", icon: "03d" }] },
-    { dt: 1720849200, main: { temp: 25 }, weather: [{ main: "Clear", description: "clear sky", icon: "01d" }] },
-    { dt: 1720860000, main: { temp: 26 }, weather: [{ main: "Clouds", description: "broken clouds", icon: "04d" }] },
-    { dt: 1720870800, main: { temp: 27 }, weather: [{ main: "Rain", description: "moderate rain", icon: "10d" }] },
-    { dt: 1720881600, main: { temp: 28 }, weather: [{ main: "Clouds", description: "overcast clouds", icon: "04d" }] },
-    { dt: 1720892400, main: { temp: 27 }, weather: [{ main: "Clear", description: "clear sky", icon: "01d" }] },
-    { dt: 1720903200, main: { temp: 26 }, weather: [{ main: "Clouds", description: "few clouds", icon: "02d" }] },
-    { dt: 1720914000, main: { temp: 25 }, weather: [{ main: "Rain", description: "light rain", icon: "10d" }] }
-  ];
-  // --- MOCK DATA END ---
-
   // 위치 권한 허용 여부 state 추가
   const [locationAllowed, setLocationAllowed] = React.useState(false);
 
@@ -109,8 +63,7 @@ function MainPage() {
         getWeatherByCurrentLoaction(lat, lon);
       },
       (error) => {
-        // 위치 거부/실패 시 더미 데이터 유지
-        setWeatherData(seoulWeatherMock);
+        // 위치 거부/실패 시 기본값 설정
       }
     );
   }, [setWeatherData]);
@@ -243,7 +196,7 @@ function MainPage() {
                 <WeatherNews />
               </div>
             </div>
-            <HourlyRainfallBar data={hourlyRainfall} />
+            {/* <HourlyRainfallBar data={hourlyRainfall} /> */}
             <WeatherButton cities={cities} />
           </div>
         </>
