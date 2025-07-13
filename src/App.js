@@ -4,18 +4,15 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './App.css';
 import ForecastList from './component/Forecast';
-import HourlyRainfallBar from './component/HourlyRainfallBar';
-import Navbar from './component/Navbar';
 import WeatherMap from './component/Page/WeatherMap';
+import RainfallInfo from './component/RainfallInfo';
 import ScrollToTop from './component/ScrollToTop';
 import SubjectTitle from './component/SubjectTitle';
 import TodayDetail from './component/TodayDetail';
 import WeatherBox from './component/WeatherBox';
-import WeatherButton from './component/WeatherButton';
 import WeatherNews from './component/WeatherNews';
 import loadingAnim from './image/loading.json';
 import useGlobalStore from './store/useGlobalStore';
-import RainfallInfo from './component/RainfallInfo';
 
 // 한글 도시명을 영문으로 변환하는 매핑 테이블
 const cityNameToEnglish = {
@@ -37,21 +34,25 @@ function MainPage() {
   const {
     city,
     setCity,
-    weatherData,
     setWeatherData,
     isLoading,
     setIsLoading,
-    forecast,
     setForecast,
     setSelectedCity,
-    hourlyRainfall,
-    setHourlyRainfall
+    setHourlyRainfall,
+    setCurrentCity
   } = useGlobalStore();
   const cities = ['Seoul','Daejeon','Daegu','Busan','Gwangju','Guri','Incheon','Junju','Sokcho','Pohang','Jeju'];
   const location = useLocation();
 
+  const resetApp = () => {
+    setCity(null);
+    setSelectedCity(null);
+    getCurrentLocation(); // 현재 위치 기반으로 날씨 정보 다시 가져오기
+  }
+
   // 위치 권한 허용 여부 state 추가
-  const [locationAllowed, setLocationAllowed] = React.useState(false);
+  const [setLocationAllowed] = React.useState(false);
 
   // 1. 더미 데이터로 초기 세팅 (weatherbox만)
   // 위치 권한 허용 시 실제 데이터로 교체, 거부/미응답 시 더미 유지 (WeatherBox만)
@@ -162,8 +163,7 @@ function MainPage() {
   return (
     <div>
       <ScrollToTop />
-      <Navbar />
-      <SubjectTitle onSearch={setCity} />
+      <SubjectTitle onSearch={setCity} onReset={resetApp} />
       {isLoading ? (
         <div style={{
           position: 'fixed',
@@ -196,8 +196,8 @@ function MainPage() {
                 <WeatherNews />
               </div>
             </div>
-            {/* <HourlyRainfallBar data={hourlyRainfall} /> */}
-            <WeatherButton cities={cities} />
+            <RainfallInfo />
+            {/* <WeatherButton cities={cities} /> */}
           </div>
         </>
       )}

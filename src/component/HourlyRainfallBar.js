@@ -11,7 +11,7 @@ const HourlyRainfallBar = ({ data }) => {
 
   return (
     <div className="hourly-rainfall-container">
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start', flexWrap: 'nowrap' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start'}}>
         {(data || []).map((item, idx) => (
           <div
             key={idx}

@@ -416,7 +416,7 @@ const WeatherMap = () => {
         <div
           id="weather-map"
           ref={mapRef}
-          style={{ width: '60vw', height: '70vh', border: '1px solid #ccc' }}
+          style={{ width: '60vw', height: '70vh', border: 'none' }}
         />
       </div>
     </>

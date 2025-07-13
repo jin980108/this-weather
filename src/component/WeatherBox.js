@@ -1,17 +1,14 @@
-import React from 'react';
 import Lottie from 'lottie-react';
-import sunny from '../image/sunny.json';
 import cloudy from '../image/cloudy.json';
-import rainy from '../image/rainy.json';
 import foggy from '../image/foggy.json';
+import rainy from '../image/rainy.json';
+import sunny from '../image/sunny.json';
 import useGlobalStore from '../store/useGlobalStore';
 import { getFormattedTime } from './CurrentTime';
-import { Button } from 'react-bootstrap';
+import searchlocation from '../image/location.png';
 
 const WeatherBox = () => {
   const weather = useGlobalStore((state) => state.weatherData);
-  const isLoading = useGlobalStore((state) => state.isLoading);
-  const city = useGlobalStore((state) => state.city);
   const setCity = useGlobalStore((state) => state.setCity);
 
   if (!weather?.name) return null;
@@ -147,13 +144,11 @@ const WeatherBox = () => {
   const cityKey = weather?.name?.toLowerCase().replace(/\s/g, "");
   const isFavorite = cityKey && favoriteCities.includes(cityKey);
   
-  const contentStyle = isFavorite
-    ? {
-        borderRadius: '25px',
-        padding: '30px',
-        border: 'none',
-      }
-    : {};
+  const contentStyle = {
+    borderRadius: '25px',
+    padding: '30px',
+    border: 'none',
+  };
 
   const handleCityChange = (city) => {
     if (city === "current") {
@@ -177,9 +172,15 @@ const WeatherBox = () => {
   return (
     <div className="weather-box">
       <div style={contentStyle}>
-        <div className="weather-current">현재<Button variant={`${city == null ? "outline-primary" : "primary"}`}
-        onClick={() => handleCityChange("current")}
-      >asd</Button></div>
+          <div className="weather-current-row">
+            <div className="weather-current">현재</div>
+            <img
+              src={searchlocation}
+              alt="현재위치"
+              className="current-location-button"
+              onClick={() => handleCityChange('current')}
+            />
+          </div>
         <div className="weather-name">
            {weather?.main?.temp !== undefined && (
           <div className="weather-temp">
@@ -187,7 +188,8 @@ const WeatherBox = () => {
               {Math.floor(weather.main.temp)}°
             </h2>
           </div>
-       )}<Lottie className="lottie-icon"animationData={animationData}/>
+       )}
+       <Lottie className="lottie-icon" animationData={animationData}/>
         </div>
         <div className="weather-description">
           <h3>{translateWeatherDescription(weather?.weather?.[0]?.description)}</h3>
