@@ -64,7 +64,7 @@ const WeatherNews = () => {
         <div className="weathernews-section">
           <h2 className="weathernews-title">날씨 뉴스</h2>
           {filteredNews.length === 0 ? (
-            <div>뉴스가 없습니다.</div>
+            <div></div>
           ) : (
             filteredNews.slice(0, 5).map((item, idx) => (
               <div key={idx} className="weathernews-card">
@@ -97,7 +97,7 @@ const WeatherNews = () => {
         <div className="weathernews-section">
           <h2 className="weathernews-title">날씨 유튜브</h2>
           {youtubeVideos.length === 0 ? (
-            <div>유튜브 영상이 없습니다.</div>
+            <div></div>
           ) : (
             youtubeVideos.map((video, idx) => (
               <div

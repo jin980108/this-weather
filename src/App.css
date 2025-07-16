@@ -321,6 +321,7 @@ hr{
 
 .weathernews-title {
   font-family: 'Ownglyph_corncorn-Rg';
+  width:90px;
   font-size: 23px;
   margin-bottom: 10px;
   color: white;
