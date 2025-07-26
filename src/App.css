@@ -609,8 +609,12 @@ html.weather-news-active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top:10px;
   margin-right: 10px;
+}
+
+.detail-value {
+  margin-top: -10px;
+  text-align: center;
 }
 
 .air-value {

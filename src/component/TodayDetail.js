@@ -393,19 +393,31 @@ const TodayDetail = () => {
             <div className="air-components-row">
               <div className="air-component">
                 <div>오존</div>
+                <div className="detail-value">
                 <div className="air-value">{ozone !== null ? (Math.round(ozone * 10) / 10) : ''}</div>
+                <div>μg/m³</div>
+                </div>
               </div>
               <div className="air-component">
                 <div>일산화탄소</div>
+                <div className="detail-value">
                 <div className="air-value">{co !== null ? (Math.round(co * 10) / 10) : ''}</div>
+                <div>mg/m³</div>
+                </div>
               </div>
               <div className="air-component">
                 <div>이산화황</div>
+                <div className="detail-value">
                 <div className="air-value">{so2 !== null ? (Math.round(so2 * 10) / 10) : ''}</div>
+                <div>μg/m³</div>
+                </div>
               </div>
               <div className="air-component">
                 <div>이산화질소</div>
+                <div className="detail-value">
                 <div className="air-value">{no2 !== null ? (Math.round(no2 * 10) / 10) : ''}</div>
+                <div>μg/m³</div>
+                </div>
               </div>
             </div>
           </div>
